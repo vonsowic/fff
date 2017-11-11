@@ -7,8 +7,13 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 
-
+/**
+ * @author Michał Wąsowicz
+ * @version 1.0
+ * @since 11.11.17
+ */
 public class App extends Application{
+
     public static void main(String[] args) {
         launch(args);
     }
