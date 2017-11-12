@@ -1,3 +1,5 @@
+https://snap.stanford.edu/data/egonets-Facebook.html
+
 Files:
 
 nodeId.edges : The edges in the ego network for the node 'nodeId'. Edges are undirected for facebook, and directed (a follows b) for twitter and gplus. The 'ego' node does not appear, but it is assumed that they follow every node id that appears in this file.
