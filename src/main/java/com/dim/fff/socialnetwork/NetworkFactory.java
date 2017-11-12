@@ -5,5 +5,6 @@ package com.dim.fff.socialnetwork;
  * @version 1.0
  * @since 11.11.17
  */
-public class Reletionship {
+public class NetworkFactory {
+
 }

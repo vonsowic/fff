@@ -1,6 +1,5 @@
-package com.dim.fff.socialnetwork;
+package com.dim.fff.socialnetwork.dataprovider;
 
-import com.restfb.Facebook;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,15 +10,11 @@ import java.util.Date;
  * @since 11.11.17
  */
 @Data
-public class BasicUser {
+public class BasicUser implements UserInfo<Long> {
 
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String gender;
+    private Gender gender;
 
     private Date birthday;
 }

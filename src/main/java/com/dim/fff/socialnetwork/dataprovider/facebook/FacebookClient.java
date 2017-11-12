@@ -1,7 +1,8 @@
-package com.dim.fff.socialnetwork.dataprovider;
+package com.dim.fff.socialnetwork.dataprovider.facebook;
 
 
-import com.dim.fff.socialnetwork.BasicUser;
+import com.dim.fff.socialnetwork.dataprovider.UserInfo;
+import com.dim.fff.socialnetwork.dataprovider.DataProvider;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
@@ -15,7 +16,7 @@ import java.util.Collection;
  * @version 1.0
  * @since 11.11.17
  */
-public class FacebookClient implements DataProvider {
+public class FacebookClient implements DataProvider<Long> {
 
     private DefaultFacebookClient client = new DefaultFacebookClient(
             ACCESS_TOKEN,
@@ -23,19 +24,19 @@ public class FacebookClient implements DataProvider {
             Version.VERSION_2_10);
 
     @Override
-    public BasicUser findUserById(Long userId){
+    public FacebookUser findUserById(Long userId){
         return client.fetchObject(
                 userId.toString(),
-                BasicUser.class,
+                FacebookUser.class,
                 Parameter.with("fields","id, birthday, first_name, last_name, gender")
         );
     }
 
     @Override
-    public Collection<BasicUser> findUsersFriends(Long userId) {
+    public Collection<FacebookUser> findUsersFriends(UserInfo user) {
         return client.fetchConnection(
-                userId + "/friends",
-                BasicUser.class
+                user.getId().toString() + "/friends",
+                FacebookUser.class
         ).getData();
     }
 

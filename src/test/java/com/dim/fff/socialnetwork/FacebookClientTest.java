@@ -1,6 +1,7 @@
 package com.dim.fff.socialnetwork;
 
-import com.dim.fff.socialnetwork.dataprovider.FacebookClient;
+import com.dim.fff.socialnetwork.dataprovider.facebook.FacebookClient;
+import com.dim.fff.socialnetwork.dataprovider.facebook.FacebookUser;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,16 +18,9 @@ public class FacebookClientTest {
 
     @Test
     public void findUserById() throws Exception {
-        BasicUser user = client.findUserById(id);
+        FacebookUser user = client.findUserById(id);
         System.out.println(user.getId());
-        Assert.assertEquals("Dominika", user.getFirstName());
-        Assert.assertEquals("Ryll", user.getLastName());
-
-    }
-
-    @Test
-    public void findUsersFriends() throws Exception {
-        System.out.println(client.findUsersFriends(id));
+        Assert.assertNotNull(user);
     }
 
 }
