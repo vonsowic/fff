@@ -1,5 +1,7 @@
 package com.dim.fff.socialnetwork.dataprovider;
 
+import com.dim.fff.socialnetwork.corenetwork.User;
+
 import java.util.Collection;
 
 /**
@@ -8,6 +10,6 @@ import java.util.Collection;
  * @since 11.11.17
  */
 public interface DataProvider<Id> {
-    UserInfo<Id> findUserById(Id userId);
-    Collection<? extends UserInfo<Id>> findUsersFriends(UserInfo<Id> user);
+    User<Id> findUserById(Id userId);
+    Collection<? extends User<Id>> findUsersFriends(User<Id> user);
 }

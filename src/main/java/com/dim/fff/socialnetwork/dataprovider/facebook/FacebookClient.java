@@ -1,7 +1,7 @@
 package com.dim.fff.socialnetwork.dataprovider.facebook;
 
 
-import com.dim.fff.socialnetwork.dataprovider.UserInfo;
+import com.dim.fff.socialnetwork.corenetwork.User;
 import com.dim.fff.socialnetwork.dataprovider.DataProvider;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.Parameter;
@@ -33,7 +33,7 @@ public class FacebookClient implements DataProvider<Long> {
     }
 
     @Override
-    public Collection<FacebookUser> findUsersFriends(UserInfo user) {
+    public Collection<FacebookUser> findUsersFriends(User user) {
         return client.fetchConnection(
                 user.getId().toString() + "/friends",
                 FacebookUser.class

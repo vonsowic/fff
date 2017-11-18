@@ -1,7 +1,8 @@
 package com.dim.fff.socialnetwork.dataprovider.stanford;
 
+import com.dim.fff.socialnetwork.corenetwork.User;
+import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import com.dim.fff.socialnetwork.dataprovider.DataProvider;
-import com.dim.fff.socialnetwork.dataprovider.UserInfo;
 
 import java.util.Collection;
 
@@ -13,15 +14,25 @@ import java.util.Collection;
  * @version 1.0
  * @since 12.11.17
  */
-public class SnapUploader implements DataProvider<Integer> {
+public class SnapUploader implements DataProvider<Integer>, DataLoader {
 
     @Override
-    public UserInfo<Integer> findUserById(Integer userId) {
+    public User<Integer> findUserById(Integer userId) {
         return null;
     }
 
     @Override
-    public Collection<? extends UserInfo<Integer>> findUsersFriends(UserInfo<Integer> user) {
+    public Collection<? extends User<Integer>> findUsersFriends(User<Integer> user) {
+        return null;
+    }
+
+    @Override
+    public Collection getAllUsers() {
+        return null;
+    }
+
+    @Override
+    public Collection getAllRelationships() {
         return null;
     }
 }
