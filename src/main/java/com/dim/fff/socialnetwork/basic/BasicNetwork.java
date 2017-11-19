@@ -1,8 +1,7 @@
 package com.dim.fff.socialnetwork.basic;
 
 import com.dim.fff.socialnetwork.corenetwork.Network;
-import com.dim.fff.socialnetwork.corenetwork.Relationship;
-import com.dim.fff.socialnetwork.corenetwork.User;
+import org.graphstream.graph.Graph;
 
 /**
  * @author Michał Wąsowicz
@@ -11,7 +10,7 @@ import com.dim.fff.socialnetwork.corenetwork.User;
  */
 public class BasicNetwork extends Network {
 
-    public BasicNetwork(com.google.common.graph.Network<User, Relationship> network) {
+    public BasicNetwork(Graph network) {
         super(network);
     }
 

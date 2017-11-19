@@ -18,4 +18,9 @@ public class Relationship {
         this.user1 = user1;
         this.user2 = user2;
     }
+
+    @Override
+    public String toString(){
+        return user1.toString() + user2.toString();
+    }
 }

@@ -17,4 +17,9 @@ public class BasicUser implements User<Integer> {
     public BasicUser(Integer id) {
         this.id = id;
     }
+
+    @Override
+    public String toString(){
+        return id.toString();
+    }
 }

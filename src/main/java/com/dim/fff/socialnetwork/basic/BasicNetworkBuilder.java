@@ -4,7 +4,8 @@ import com.dim.fff.socialnetwork.corenetwork.NetworkBuilder;
 import com.dim.fff.socialnetwork.corenetwork.Relationship;
 import com.dim.fff.socialnetwork.corenetwork.User;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
-import com.google.common.graph.MutableNetwork;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
 
 import java.util.Collection;
 
@@ -29,19 +30,16 @@ public class BasicNetworkBuilder implements NetworkBuilder {
 
     @Override
     public BasicNetwork build() {
-        MutableNetwork<User, Relationship> network = com.google.common.graph.NetworkBuilder.undirected()
-                .allowsParallelEdges(true)
-                //.nodeOrder(ElementOrder.natural())
-                .expectedNodeCount(users.size())
-                .expectedEdgeCount(relationships.size())
-                .build();
+        Graph graph = new SingleGraph("Social network");
+        graph.setStrict(false);
+        graph.setAutoCreate( true );
 
-        users.forEach(network::addNode);
-        relationships.forEach(relationship -> network.addEdge(
-                relationship.getUser1(),
-                relationship.getUser2(),
-                relationship));
+        relationships.forEach(relationship -> graph.addEdge(
+                relationship.toString(),
+                relationship.getUser1().toString(),
+                relationship.getUser2().toString())
+        );
 
-        return new BasicNetwork(network);
+        return new BasicNetwork(graph);
     }
 }
