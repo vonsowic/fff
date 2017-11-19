@@ -3,11 +3,13 @@ package com.dim.fff.gui;
 import com.dim.fff.socialnetwork.basic.BasicNetworkBuilder;
 import com.dim.fff.socialnetwork.corenetwork.Network;
 import com.dim.fff.socialnetwork.corenetwork.NetworkIterator;
-import com.dim.fff.socialnetwork.dataprovider.networkrepo.SocFBNips;
+import com.dim.fff.socialnetwork.dataprovider.networkrepo.SocFBNipsClient;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 
@@ -23,11 +25,12 @@ import java.util.ResourceBundle;
  */
 public class Controller implements Initializable {
 
+
     @FXML SwingNode graphView;
 
     @FXML Button next;
 
-    private Network networkData = new BasicNetworkBuilder(new SocFBNips()).build();
+    private Network networkData = new BasicNetworkBuilder(new SocFBNipsClient()).build();
     private NetworkIterator network = (NetworkIterator) networkData.iterator();
 
     public Controller() throws IOException {}
@@ -43,5 +46,9 @@ public class Controller implements Initializable {
         viewer.enableAutoLayout();
         View view = viewer.addDefaultView(false);
         graphView.setContent((JComponent) view);
+    }
+
+    VBox getDatasetChoiceContainer(){
+        return new SimpleObjectProperty<VBox>(this, "datasetChoiceContainer").getValue();
     }
 }

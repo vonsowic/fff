@@ -15,12 +15,12 @@ import java.util.HashSet;
  * @version 1.0
  * @since 18.11.17
  */
-public class MatrixMarket implements DataLoader<Integer>{
+public class MatrixMarketClient implements DataLoader<Integer>{
 
     private HashSet<BasicUser> users = new HashSet<>();
     private HashSet<Relationship> relationships = new HashSet<>();
 
-    public MatrixMarket(File mtxDataset) throws IOException{
+    public MatrixMarketClient(File mtxDataset) throws IOException{
         Files.readLines(mtxDataset, Charsets.UTF_8)
                 .stream()
                 .filter(line -> line.matches("\\d*\\s\\d*"))
