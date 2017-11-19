@@ -13,7 +13,7 @@
                <children>
                   <VBox layoutX="11.0" layoutY="105.0" prefHeight="398.0" prefWidth="121.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" fx:id="next" text="Next" />
+                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" fx:id="next" text="Next" onAction="#nextGeneration"/>
                      </children>
                   </VBox>
                </children>

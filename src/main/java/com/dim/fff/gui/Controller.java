@@ -2,6 +2,7 @@ package com.dim.fff.gui;
 
 import com.dim.fff.socialnetwork.basic.BasicNetworkBuilder;
 import com.dim.fff.socialnetwork.corenetwork.Network;
+import com.dim.fff.socialnetwork.corenetwork.NetworkIterator;
 import com.dim.fff.socialnetwork.dataprovider.networkrepo.SocFBNips;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
@@ -26,14 +27,19 @@ public class Controller implements Initializable {
 
     @FXML Button next;
 
-    private Network network = new BasicNetworkBuilder(new SocFBNips()).build();
+    private Network networkData = new BasicNetworkBuilder(new SocFBNips()).build();
+    private NetworkIterator network = (NetworkIterator) networkData.iterator();
 
     public Controller() throws IOException {}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        nextGeneration();
+    }
+
+    public void nextGeneration(){
         // render graph in SwingNode view
-        Viewer viewer = new Viewer(network.getNetwork(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        Viewer viewer = new Viewer(network.next().getNetwork(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
         View view = viewer.addDefaultView(false);
         graphView.setContent((JComponent) view);
