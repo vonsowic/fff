@@ -1,6 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
+// activate graphic acceleration on linux
+applicationDefaultJvmArgs = ["-Dsun.java2d.opengl=True"]
 
 group = 'com.dim'
 version = '1.0'
@@ -20,6 +22,8 @@ dependencies {
     compile 'org.graphstream:gs-core:1.3'
     compile group: 'org.graphstream', name: 'gs-ui', version: '1.3'
     compile group: 'org.graphstream', name: 'gs-algo', version: '1.3'
+
+    compile 'org.reflections:reflections:0.9.11'
 
 
     testCompile 'junit:junit:4.12'

@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @version 1.0
  * @since 18.11.17
  */
-public class MatrixMarketTest {
+public class MatrixMarketClientTest {
 
-    private MatrixMarket dataset;
+    private MatrixMarketClient dataset;
 
     @Before
     public void initialize() throws IOException {
         URL url = Resources.getResource("matrixmarket/socfb-MSU24/socfb-MSU24.mtx");
-        dataset = new MatrixMarket(new File(url.getPath()));
+        dataset = new MatrixMarketClient(new File(url.getPath()));
     }
 
     @Test
