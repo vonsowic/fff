@@ -1,6 +1,9 @@
 package com.dim.fff.socialnetwork.corenetwork;
 
+import com.dim.fff.socialnetwork.dataprovider.DataLoader;
+
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Social network graph.
@@ -9,14 +12,10 @@ import java.util.Iterator;
  * @version 1.0
  * @since 11.11.17
  */
-public abstract class Network implements Iterable<Network>, Cloneable {
+public abstract class Network implements Iterable<Network>, Cloneable, DataLoader {
 
     protected Network(com.google.common.graph.Network<User, Relationship> network) {
         this.network = network;
-    }
-
-    protected Network(NetworkFactory factory){
-        this(factory.buildNetwork());
     }
 
     private com.google.common.graph.Network<User, Relationship> network;
@@ -35,4 +34,14 @@ public abstract class Network implements Iterable<Network>, Cloneable {
     }
 
     public abstract Network nextGeneration();
+
+    @Override
+    public Set<? extends User> getAllUsers() {
+        return network.nodes();
+    }
+
+    @Override
+    public Set<Relationship> getAllRelationships() {
+        return network.edges();
+    }
 }

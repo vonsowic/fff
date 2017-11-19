@@ -16,6 +16,9 @@ dependencies {
     compile group: 'com.restfb', name: 'restfb', version: '1.47.0'
     compileOnly 'org.projectlombok:lombok:1.16.18'
 
+    //compile 'eu.mihosoft.vrl.workflow:vworkflows-core:0.2.4.3'
+    compile 'eu.mihosoft.vrl.workflow:vworkflows-fx:0.2.4.3'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
 

@@ -1,12 +1,10 @@
 package com.dim.fff.socialnetwork.basic;
 
-import com.dim.fff.socialnetwork.corenetwork.NetworkFactory;
+import com.dim.fff.socialnetwork.corenetwork.NetworkBuilder;
 import com.dim.fff.socialnetwork.corenetwork.Relationship;
 import com.dim.fff.socialnetwork.corenetwork.User;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import com.google.common.graph.MutableNetwork;
-import com.google.common.graph.Network;
-import com.google.common.graph.NetworkBuilder;
 
 import java.util.Collection;
 
@@ -15,23 +13,23 @@ import java.util.Collection;
  * @version 1.0
  * @since 18.11.17
  */
-public class BasicNetworkFactory implements NetworkFactory {
+public class BasicNetworkBuilder implements NetworkBuilder {
 
     private Collection<User> users;
     private Collection<Relationship> relationships;
 
-    public BasicNetworkFactory(Collection users, Collection relationships) {
+    public BasicNetworkBuilder(Collection<User> users, Collection<Relationship> relationships) {
         this.users = users;
         this.relationships = relationships;
     }
 
-    public BasicNetworkFactory(DataLoader loader){
+    public BasicNetworkBuilder(DataLoader loader){
         this(loader.getAllUsers(), loader.getAllRelationships());
     }
 
     @Override
-    public Network<User, Relationship> buildNetwork() {
-        MutableNetwork<User, Relationship> network = NetworkBuilder.undirected()
+    public BasicNetwork build() {
+        MutableNetwork<User, Relationship> network = com.google.common.graph.NetworkBuilder.undirected()
                 .allowsParallelEdges(true)
                 //.nodeOrder(ElementOrder.natural())
                 .expectedNodeCount(users.size())
@@ -44,6 +42,6 @@ public class BasicNetworkFactory implements NetworkFactory {
                 relationship.getUser2(),
                 relationship));
 
-        return network;
+        return new BasicNetwork(network);
     }
 }

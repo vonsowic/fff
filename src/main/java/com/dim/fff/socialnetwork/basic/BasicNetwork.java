@@ -1,7 +1,6 @@
 package com.dim.fff.socialnetwork.basic;
 
 import com.dim.fff.socialnetwork.corenetwork.Network;
-import com.dim.fff.socialnetwork.corenetwork.NetworkFactory;
 import com.dim.fff.socialnetwork.corenetwork.Relationship;
 import com.dim.fff.socialnetwork.corenetwork.User;
 
@@ -12,13 +11,10 @@ import com.dim.fff.socialnetwork.corenetwork.User;
  */
 public class BasicNetwork extends Network {
 
-    private BasicNetwork(com.google.common.graph.Network<User, Relationship> network) {
+    public BasicNetwork(com.google.common.graph.Network<User, Relationship> network) {
         super(network);
     }
 
-    public BasicNetwork(NetworkFactory factory) {
-        super(factory);
-    }
 
     @Override
     protected Object clone() {
