@@ -1,15 +1,15 @@
 package com.dim.fff.gui;
 
 import com.dim.fff.socialnetwork.basic.BasicNetworkBuilder;
-import com.dim.fff.socialnetwork.corenetwork.Network;
 import com.dim.fff.socialnetwork.corenetwork.NetworkIterator;
-import com.dim.fff.socialnetwork.dataprovider.networkrepo.SocFBNipsClient;
-import javafx.beans.property.SimpleObjectProperty;
+import com.dim.fff.socialnetwork.dataprovider.DataLoader;
+import com.dim.fff.socialnetwork.dataprovider.random.RandomClient;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import lombok.Getter;
+import lombok.Setter;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 
@@ -30,10 +30,13 @@ public class Controller implements Initializable {
 
     @FXML Button next;
 
-    private Network networkData = new BasicNetworkBuilder(new SocFBNipsClient()).build();
-    private NetworkIterator network = (NetworkIterator) networkData.iterator();
+    @Setter
+    @Getter
+    private Class<? extends DataLoader> client = RandomClient.class;
 
-    public Controller() throws IOException {}
+    private NetworkIterator network = createIterator();
+
+    public Controller() throws IOException, IllegalAccessException, InstantiationException {}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,7 +51,11 @@ public class Controller implements Initializable {
         graphView.setContent((JComponent) view);
     }
 
-    VBox getDatasetChoiceContainer(){
-        return new SimpleObjectProperty<VBox>(this, "datasetChoiceContainer").getValue();
+    private NetworkIterator createIterator() throws IllegalAccessException, InstantiationException {
+        return (NetworkIterator) new BasicNetworkBuilder(client.newInstance())
+                .build()
+                .iterator();
     }
+
+    // TODO: zooming. Tutorial http://graphstream-project.org/doc/Tutorials/Graph-Visualisation/
 }

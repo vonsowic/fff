@@ -14,12 +14,12 @@ public class BasicNetwork extends Network {
         super(network);
     }
 
-
     @Override
     protected Object clone() {
         return new BasicNetwork(getNetwork());
     }
 
+    // TODO: generowanie następnego grafu. Tutorial: http://graphstream-project.org/doc/Tutorials/Working-with-algorithms-and-generators/
     @Override
     public Network nextGeneration() {
         BasicNetwork nextNetwork = (BasicNetwork) this.clone(); // create copy of this network

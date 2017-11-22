@@ -53,7 +53,7 @@ public class App extends Application{
         new Reflections("com.dim.fff.socialnetwork.dataprovider")
                 .getTypesAnnotatedWith(Client.class)
                 .forEach(client -> {
-                    RadioButton button = new RadioButton(client.getSimpleName());
+                    RadioButton button = new RadioButton(client.getSimpleName().replace("Client", ""));
                     button.setToggleGroup(datasetChoiceContainer);
                     container.add(button);
                 });
@@ -65,7 +65,7 @@ public class App extends Application{
 
         // add on click listener
         datasetChoiceContainer.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
-
+            // TODO: send Class<?>, which is selected by radiobutton, to controller
         });
 
     }
