@@ -1,6 +1,7 @@
 package com.dim.fff.socialnetwork.basic;
 
 import com.dim.fff.socialnetwork.corenetwork.Network;
+import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import org.graphstream.graph.Graph;
 
 /**
@@ -10,41 +11,20 @@ import org.graphstream.graph.Graph;
  */
 public class BasicNetwork extends Network {
 
-    public BasicNetwork(Graph network) {
-        super(network);
+
+    protected BasicNetwork(Graph network, DataLoader loader) {
+        super(network, loader);
     }
 
     @Override
     protected Object clone() {
-        return new BasicNetwork(getNetwork());
+        return new BasicNetwork(getGraph(), this);
     }
 
-    // TODO: generowanie następnego grafu. Tutorial: http://graphstream-project.org/doc/Tutorials/Working-with-algorithms-and-generators/
     @Override
     public Network nextGeneration() {
         BasicNetwork nextNetwork = (BasicNetwork) this.clone(); // create copy of this network
-        return nextNetwork
-                .randomAction()
-                .randomAction2();
-    }
-
-    private BasicNetwork randomAction(){
-        // do sth with network
-        return this;
-    }
-
-    private BasicNetwork randomAction2(){
-        // do sth with network
-        return this;
-    }
-
-    @Override
-    public void init(Graph graph) {
-
-    }
-
-    @Override
-    public void compute() {
-
+        //Generator algorithm = new NetworkAlgorithm(nextNetwork);
+        return nextNetwork;
     }
 }

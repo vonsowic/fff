@@ -1,8 +1,9 @@
 package com.dim.fff.socialnetwork.corenetwork;
 
-import org.graphstream.algorithm.Algorithm;
+import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import org.graphstream.graph.Graph;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -12,16 +13,33 @@ import java.util.Iterator;
  * @version 1.0
  * @since 11.11.17
  */
-public abstract class Network implements Iterable<Network>, Cloneable, Algorithm {
-
-    protected Network(Graph network) {
-        this.network = network;
-    }
+public abstract class Network implements Iterable<Network>, Cloneable, DataLoader<Long> {
 
     private Graph network;
 
-    public Graph getNetwork(){
+    private Collection<Relationship> relationships;
+
+    private Collection<? extends User<Long>> users;
+
+    protected Network(Graph network, DataLoader loader) {
+        this.network = network;
+        relationships = loader.getAllRelationships();
+        users = loader.getAllUsers();
+    }
+
+    public Graph getGraph(){
         return this.network;
+    }
+
+
+    @Override
+    public Collection<? extends User<Long>> getAllUsers() {
+        return users;
+    }
+
+    @Override
+    public Collection<Relationship> getAllRelationships() {
+        return relationships;
     }
 
     @Override
@@ -34,5 +52,4 @@ public abstract class Network implements Iterable<Network>, Cloneable, Algorithm
     }
 
     public abstract Network nextGeneration();
-
 }

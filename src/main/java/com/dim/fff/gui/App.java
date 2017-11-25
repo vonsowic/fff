@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.reflections.Reflections;
 
+import java.util.HashMap;
+
 /**
  * @author Michał Wąsowicz
  * @version 1.0
@@ -29,12 +31,14 @@ public class App extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(MAINVIEW));
+
         Parent root = loader.load();
         primaryStage.setTitle("Find Future Friends");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
 
         // inject controller
         controller = loader.getController();
@@ -50,10 +54,13 @@ public class App extends Application{
         final ToggleGroup datasetChoiceContainer = new ToggleGroup();
 
         // for each client class add radio button
+        HashMap<String, Class> classes = new HashMap<>();
         new Reflections("com.dim.fff.socialnetwork.dataprovider")
                 .getTypesAnnotatedWith(Client.class)
                 .forEach(client -> {
-                    RadioButton button = new RadioButton(client.getSimpleName().replace("Client", ""));
+                    String buttonName = client.getSimpleName().replace("Client", "");
+                    classes.put(buttonName, client);
+                    RadioButton button = new RadioButton(buttonName);
                     button.setToggleGroup(datasetChoiceContainer);
                     container.add(button);
                 });
@@ -65,10 +72,12 @@ public class App extends Application{
 
         // add on click listener
         datasetChoiceContainer.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
-            // TODO: send Class<?>, which is selected by radiobutton, to controller
+            controller.setClient(classes.get(((RadioButton)new_toggle).getText()));
         });
 
     }
+
+
 
     private static final String MAINVIEW = "mainview.fxml";
 
