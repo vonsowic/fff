@@ -37,4 +37,14 @@ public class BasicNetwork extends Network {
         // do sth with network
         return this;
     }
+
+    @Override
+    public void init(Graph graph) {
+
+    }
+
+    @Override
+    public void compute() {
+
+    }
 }

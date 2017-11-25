@@ -1,5 +1,6 @@
 package com.dim.fff.socialnetwork.corenetwork;
 
+import org.graphstream.algorithm.Algorithm;
 import org.graphstream.graph.Graph;
 
 import java.util.Iterator;
@@ -11,7 +12,7 @@ import java.util.Iterator;
  * @version 1.0
  * @since 11.11.17
  */
-public abstract class Network implements Iterable<Network>, Cloneable {
+public abstract class Network implements Iterable<Network>, Cloneable, Algorithm {
 
     protected Network(Graph network) {
         this.network = network;
