@@ -15,4 +15,14 @@ public class Group {
     private String name;
 
     private Collection<User> members;
+
+    @Override
+    public String toString(){
+        return this.name;
+    }
+
+    @Override
+    public int hashCode(){
+        return name.hashCode();
+    }
 }
