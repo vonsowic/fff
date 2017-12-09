@@ -1,9 +1,9 @@
 package com.dim.fff.socialnetwork.dataprovider.networkrepo;
 
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.Group;
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.Relationship;
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.User;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Group;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.User;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 

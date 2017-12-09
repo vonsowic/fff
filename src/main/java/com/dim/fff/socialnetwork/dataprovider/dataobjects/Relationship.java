@@ -1,4 +1,4 @@
-package com.dim.fff.socialnetwork.corenetwork.dataobjects;
+package com.dim.fff.socialnetwork.dataprovider.dataobjects;
 
 import lombok.Data;
 
@@ -14,26 +14,10 @@ public class Relationship {
     private final User user1;
     private final User user2;
 
-    private boolean relationshipExists = true;
-
-    /**
-     * If relationshipExists is true, then this is probability of loosing relationship
-     * If relationshipExists is false, then this is probability of creating new relationship
-     */
-    private int probability = 0;
-
-    public void addProbability(int probability){
-        this.probability += probability;
-    }
 
     public Relationship(User user1, User user2) {
         this.user1 = user1;
         this.user2 = user2;
-    }
-
-    public Relationship(User user1, User user2, boolean relationshipExists) {
-        this(user1, user2);
-        this.relationshipExists = relationshipExists;
     }
 
     @Override
@@ -55,6 +39,6 @@ public class Relationship {
 
     @Override
     public int hashCode() {
-        return 31 * super.hashCode() + user1.hashCode() + user2.hashCode();
+        return toString().hashCode();
     }
 }

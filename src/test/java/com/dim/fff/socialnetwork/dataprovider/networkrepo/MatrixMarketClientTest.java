@@ -1,7 +1,7 @@
 package com.dim.fff.socialnetwork.dataprovider.networkrepo;
 
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.Relationship;
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.User;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.User;
 import com.google.common.io.Resources;
 import org.junit.Before;
 import org.junit.Test;
