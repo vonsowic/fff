@@ -1,4 +1,4 @@
-package com.dim.fff.socialnetwork.corenetwork;
+package com.dim.fff.socialnetwork.corenetwork.dataobjects;
 
 import lombok.Data;
 

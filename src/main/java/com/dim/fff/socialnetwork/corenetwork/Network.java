@@ -3,7 +3,6 @@ package com.dim.fff.socialnetwork.corenetwork;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import org.graphstream.graph.Graph;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -13,37 +12,24 @@ import java.util.Iterator;
  * @version 1.0
  * @since 11.11.17
  */
-public abstract class Network implements Iterable<Network>, Cloneable, DataLoader<Long> {
+public class Network implements Iterable<Network>, Cloneable{
 
-    private Graph network;
-
-    private Collection<Relationship> relationships;
-
-    private Collection<? extends User<Long>> users;
+    private final DataLoader dataLoader;
+    private final Graph network;
 
     protected Network(Graph network, DataLoader loader) {
         this.network = network;
-        relationships = loader.getAllRelationships();
-        users = loader.getAllUsers();
+        this.dataLoader = loader;
     }
 
     public Graph getGraph(){
         return this.network;
     }
 
-
     @Override
-    public Collection<? extends User<Long>> getAllUsers() {
-        return users;
+    protected Object clone() {
+        return new Network(getGraph(), dataLoader);
     }
-
-    @Override
-    public Collection<Relationship> getAllRelationships() {
-        return relationships;
-    }
-
-    @Override
-    protected abstract Object clone();
 
     @SuppressWarnings("NullableProblems")
     @Override
@@ -51,5 +37,7 @@ public abstract class Network implements Iterable<Network>, Cloneable, DataLoade
         return new NetworkIterator(this);
     }
 
-    public abstract Network nextGeneration();
+    public Network nextGeneration(){
+        return this;
+    }
 }

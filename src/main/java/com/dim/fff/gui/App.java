@@ -65,11 +65,6 @@ public class App extends Application{
                     container.add(button);
                 });
 
-        // select first button
-        datasetChoiceContainer.selectToggle(
-                datasetChoiceContainer.getToggles().get(0)
-        );
-
         // add on click listener
         datasetChoiceContainer.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
             controller.setClient(classes.get(((RadioButton)new_toggle).getText()));

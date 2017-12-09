@@ -1,6 +1,6 @@
 package com.dim.fff.gui;
 
-import com.dim.fff.socialnetwork.basic.BasicNetworkBuilder;
+import com.dim.fff.socialnetwork.corenetwork.NetworkBuilder;
 import com.dim.fff.socialnetwork.corenetwork.NetworkIterator;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import com.dim.fff.socialnetwork.dataprovider.random.RandomClient;
@@ -37,9 +37,7 @@ public class Controller implements Initializable {
         this.client = client;
         try {
             network = createIterator();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch (IllegalAccessException | InstantiationException | IOException e) {
             e.printStackTrace();
         }
         nextGeneration();
@@ -66,8 +64,12 @@ public class Controller implements Initializable {
         hideProgressBar();
     }
 
-    private NetworkIterator createIterator() throws IllegalAccessException, InstantiationException {
-        return (NetworkIterator) new BasicNetworkBuilder(client.newInstance())
+    private NetworkIterator createIterator() throws IllegalAccessException, InstantiationException, IOException {
+        DataLoader loader = client.newInstance();
+        return (NetworkIterator) NetworkBuilder.newInstance()
+                .addUsers(loader.getAllUsers())
+                .addRelationships(loader.getAllRelationships())
+                .addGroups(loader.getAllGroups())
                 .build()
                 .iterator();
     }
