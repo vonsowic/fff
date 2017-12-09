@@ -49,7 +49,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //nextGeneration();
+        nextGeneration();
         progress.setProgress(-1);
     }
 

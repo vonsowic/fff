@@ -1,10 +1,10 @@
 package com.dim.fff.socialnetwork.dataprovider.random;
 
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.Group;
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.Relationship;
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.User;
 import com.dim.fff.socialnetwork.dataprovider.Client;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Group;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.User;
 
 import java.util.Collection;
 import java.util.HashSet;

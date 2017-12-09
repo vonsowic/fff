@@ -1,4 +1,4 @@
-package com.dim.fff.socialnetwork.corenetwork.dataobjects;
+package com.dim.fff.socialnetwork.dataprovider.dataobjects;
 
 import lombok.Data;
 
@@ -23,6 +23,6 @@ public class Group {
 
     @Override
     public int hashCode(){
-        return name.hashCode();
+        return toString().hashCode();
     }
 }

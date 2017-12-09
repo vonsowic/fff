@@ -1,10 +1,10 @@
 package com.dim.fff.socialnetwork.corenetwork;
 
 
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.Group;
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.Relationship;
-import com.dim.fff.socialnetwork.corenetwork.dataobjects.User;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Group;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.User;
 import org.graphstream.graph.implementations.SingleGraph;
 
 import java.util.Collection;
@@ -49,7 +49,7 @@ public class NetworkBuilder implements DataLoader{
         SingleGraph graph = new SingleGraph("");
         graph.setAutoCreate( true );
         graph.setStrict(false);
-        //getAllUsers().forEach(user -> graph.addNode(user.toString()));
+        getAllUsers().forEach(user -> graph.addNode(user.toString()));
 
         getAllRelationships().forEach(relationship -> graph.addEdge(
                 relationship.toString(),
@@ -57,7 +57,11 @@ public class NetworkBuilder implements DataLoader{
                 relationship.getUser2().toString())
         );
 
-        return new Network(graph, this);
+        graph
+                .getEdgeIterator()
+                .forEachRemaining(edge -> edge.setAttribute(Attributes.EXISTS, true));
+
+        return new Network(graph);
     }
 
     @Override

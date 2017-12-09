@@ -1,6 +1,9 @@
 package com.dim.fff.socialnetwork.corenetwork;
 
-import com.dim.fff.socialnetwork.dataprovider.DataLoader;
+import com.dim.fff.socialnetwork.corenetwork.algorithms.ColorEdges;
+import com.dim.fff.socialnetwork.corenetwork.algorithms.FriendsOfFriendsAreMyFriends;
+import com.dim.fff.socialnetwork.corenetwork.algorithms.GroupMembershipProbabilities;
+import com.dim.fff.socialnetwork.corenetwork.algorithms.SetZeroProbabilities;
 import org.graphstream.graph.Graph;
 
 import java.util.Iterator;
@@ -14,12 +17,11 @@ import java.util.Iterator;
  */
 public class Network implements Iterable<Network>, Cloneable{
 
-    private final DataLoader dataLoader;
     private final Graph network;
 
-    protected Network(Graph network, DataLoader loader) {
+    protected Network(Graph network) {
         this.network = network;
-        this.dataLoader = loader;
+        new SetZeroProbabilities(this).compute();
     }
 
     public Graph getGraph(){
@@ -27,8 +29,8 @@ public class Network implements Iterable<Network>, Cloneable{
     }
 
     @Override
-    protected Object clone() {
-        return new Network(getGraph(), dataLoader);
+    protected Object clone(){
+        return new Network(getGraph());
     }
 
     @SuppressWarnings("NullableProblems")
@@ -38,6 +40,9 @@ public class Network implements Iterable<Network>, Cloneable{
     }
 
     public Network nextGeneration(){
+        new GroupMembershipProbabilities(this).compute();
+        new FriendsOfFriendsAreMyFriends(this).compute();
+        new ColorEdges(this).compute();
         return this;
     }
 }
