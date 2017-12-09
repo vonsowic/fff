@@ -71,7 +71,7 @@ public class SnapReaderClient implements DataLoader {
 
     @Override
     public Collection<Group> getAllGroups() {
-        // TODO : podobnie jak z getAllRelationships, tyle że grupy są w plikach "*.circles"
+        // TODO : wczytywanie grup. podobnie jak z getAllRelationships, tyle że grupy są w plikach "*.circles"
         return new HashSet<>();
     }
 
