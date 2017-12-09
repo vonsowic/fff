@@ -1,13 +1,15 @@
 package com.dim.fff.socialnetwork.dataprovider.networkrepo;
 
-import com.dim.fff.socialnetwork.basic.BasicUser;
-import com.dim.fff.socialnetwork.corenetwork.Relationship;
+import com.dim.fff.socialnetwork.corenetwork.dataobjects.Group;
+import com.dim.fff.socialnetwork.corenetwork.dataobjects.Relationship;
+import com.dim.fff.socialnetwork.corenetwork.dataobjects.User;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -15,9 +17,9 @@ import java.util.HashSet;
  * @version 1.0
  * @since 18.11.17
  */
-public class MatrixMarketClient implements DataLoader<Integer>{
+public class MatrixMarketClient implements DataLoader {
 
-    private HashSet<BasicUser> users = new HashSet<>();
+    private HashSet<User> users = new HashSet<>();
     private HashSet<Relationship> relationships = new HashSet<>();
 
     public MatrixMarketClient(File mtxDataset) throws IOException{
@@ -27,11 +29,8 @@ public class MatrixMarketClient implements DataLoader<Integer>{
                 .forEach(line -> {
                     String[] splited = line.split(" ");
 
-                    BasicUser user1 = new BasicUser();
-                    user1.setId(Integer.valueOf(splited[0]));
-
-                    BasicUser user2 = new BasicUser();
-                    user2.setId(Integer.valueOf(splited[1]));
+                    User user1 = new User(Long.valueOf(splited[0]));
+                    User user2 = new User(Long.valueOf(splited[1]));
 
                     users.add(user1);
                     users.add(user2);
@@ -42,11 +41,16 @@ public class MatrixMarketClient implements DataLoader<Integer>{
     }
 
     @Override
-    public HashSet<BasicUser> getAllUsers() {
+    public HashSet<User> getAllUsers() {
         return this.users;
     }
 
     public HashSet<Relationship> getAllRelationships() {
         return this.relationships;
+    }
+
+    @Override
+    public Collection<Group> getAllGroups() {
+        return new HashSet<>();
     }
 }

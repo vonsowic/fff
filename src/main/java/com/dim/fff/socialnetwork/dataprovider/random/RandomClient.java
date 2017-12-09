@@ -1,8 +1,8 @@
 package com.dim.fff.socialnetwork.dataprovider.random;
 
-import com.dim.fff.socialnetwork.basic.BasicUser;
-import com.dim.fff.socialnetwork.corenetwork.Relationship;
-import com.dim.fff.socialnetwork.corenetwork.User;
+import com.dim.fff.socialnetwork.corenetwork.dataobjects.Group;
+import com.dim.fff.socialnetwork.corenetwork.dataobjects.Relationship;
+import com.dim.fff.socialnetwork.corenetwork.dataobjects.User;
 import com.dim.fff.socialnetwork.dataprovider.Client;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 
@@ -16,31 +16,31 @@ import java.util.Random;
  * @since 20.11.17
  */
 @Client
-public class RandomClient implements DataLoader<Integer>{
+public class RandomClient implements DataLoader {
 
-    private final Integer numberOfNodes;
-    private HashSet<BasicUser> users = new HashSet<>();
+    private final Long numberOfNodes;
+    private HashSet<User> users = new HashSet<>();
     private HashSet<Relationship> relationships = new HashSet<>();
 
 
-    public RandomClient(Integer numberOfNodes){
+    public RandomClient(Long numberOfNodes){
         this.numberOfNodes = numberOfNodes;
         generate();
     }
 
     public RandomClient(){
-        this(100);
+        this(100L);
     }
 
 
     private void generate(){
         Random randomGenerator = new Random();
-        for(Integer i = 1; i <= numberOfNodes; i++){
-            users.add(new BasicUser(i));
-            for(Integer j = 0; j<4; j++){
+        for(Long i = 1L; i <= numberOfNodes; i++){
+            users.add(new User(i));
+            for(Long j = 0L; j<4; j++){
                 relationships.add(new Relationship(
-                        new BasicUser(randomGenerator.nextInt(i)+1),
-                        new BasicUser(randomGenerator.nextInt(i)+1)
+                        new User(randomGenerator.nextLong()+1),
+                        new User(randomGenerator.nextLong()+1)
                 ));
             }
         }
@@ -48,12 +48,17 @@ public class RandomClient implements DataLoader<Integer>{
 
 
     @Override
-    public Collection<? extends User<Integer>> getAllUsers() {
+    public Collection<User> getAllUsers() {
         return users;
     }
 
     @Override
     public Collection<Relationship> getAllRelationships() {
         return relationships;
+    }
+
+    @Override
+    public Collection<Group> getAllGroups() {
+        return new HashSet<>();
     }
 }

@@ -1,7 +1,7 @@
 package com.dim.fff.socialnetwork.dataprovider.networkrepo;
 
-import com.dim.fff.socialnetwork.basic.BasicUser;
-import com.dim.fff.socialnetwork.corenetwork.Relationship;
+import com.dim.fff.socialnetwork.corenetwork.dataobjects.Relationship;
+import com.dim.fff.socialnetwork.corenetwork.dataobjects.User;
 import com.google.common.io.Resources;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,14 +31,14 @@ public class MatrixMarketClientTest {
 
     @Test
     public void getAllUsers() throws Exception {
-        HashSet<BasicUser> users = dataset.getAllUsers();
+        HashSet<User> users = dataset.getAllUsers();
         assertThat(users)
                 .hasSize(32375)
-                .contains(new BasicUser(2561))
-                .contains(new BasicUser(1))
-                .contains(new BasicUser(21))
-                .contains(new BasicUser(251))
-                .doesNotContain(new BasicUser(9999999));
+                .contains(new User(2561L))
+                .contains(new User(1L))
+                .contains(new User(21L))
+                .contains(new User(251L))
+                .doesNotContain(new User(9999999L));
     }
 
     @Test
