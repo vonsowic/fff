@@ -9,6 +9,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 /**
  * @author Michał Wąsowicz
@@ -48,7 +49,7 @@ public class NetworkBuilder implements DataLoader{
     public Network build(){
         SingleGraph graph = new SingleGraph("");
         graph.setAutoCreate( true );
-        graph.setStrict(false);
+        graph.setStrict( false );
         getAllUsers().forEach(user -> graph.addNode(user.toString()));
 
         getAllRelationships().forEach(relationship -> graph.addEdge(
@@ -60,6 +61,29 @@ public class NetworkBuilder implements DataLoader{
         graph
                 .getEdgeIterator()
                 .forEachRemaining(edge -> edge.setAttribute(Attributes.EXISTS, true));
+
+        // add groups
+        graph
+                .getNodeIterator()
+                .forEachRemaining(user -> user.addAttribute(
+                        Attributes.GROUPS,
+                        getAllGroups()
+                            .stream()
+                            .filter(group -> group.getMembers().contains(Long.valueOf(user.getId())))
+                            .map(Group::getName)
+                            .collect(Collectors.toSet())
+                ));
+
+
+        /*
+        Wyswietla przy kazdym node grupy do których ten node nalezy
+        graph
+                .getNodeIterator()
+                .forEachRemaining(user -> user.setAttribute(
+                        Attributes.PROBABILITY,
+                        user.getAttribute(Attributes.GROUPS, HashSet.class)
+                ));
+                */
 
         return new Network(graph);
     }

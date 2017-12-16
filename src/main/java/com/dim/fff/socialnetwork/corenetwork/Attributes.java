@@ -10,4 +10,6 @@ public class Attributes {
     public static final String EXISTS = "exists";
     public static final String PROBABILITY = "ui.label";
     public static final String COLOR = "ui.color";
+    public static final String GROUPS = "groups";
+
 }

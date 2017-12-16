@@ -16,7 +16,6 @@ repositories {
 dependencies {
     compile 'com.jfoenix:jfoenix:1.0.0'
     compile 'com.google.guava:guava:22.0'
-    compileOnly 'org.projectlombok:lombok:1.16.18'
 
     compile 'org.graphstream:gs-core:1.3'
     compile group: 'org.graphstream', name: 'gs-ui', version: '1.3'
