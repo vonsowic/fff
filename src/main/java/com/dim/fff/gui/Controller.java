@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
-import lombok.Getter;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 
@@ -30,8 +29,11 @@ public class Controller implements Initializable {
     @FXML private SwingNode graphView;
     @FXML private Button next;
 
-    @Getter
     private Class<? extends DataLoader> client = RandomClient.class;
+
+    public Class<? extends DataLoader> getClient() {
+        return client;
+    }
 
     public void setClient(Class<? extends DataLoader> client) {
         this.client = client;
