@@ -11,8 +11,8 @@ import com.google.common.io.Resources;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -71,8 +71,30 @@ public class SnapReaderClient implements DataLoader {
 
     @Override
     public Collection<Group> getAllGroups() {
-        // TODO : wczytywanie grup. podobnie jak z getAllRelationships, tyle że grupy są w plikach "*.circles"
-        return new HashSet<>();
+        Collection<Group> groups = new HashSet<>();
+        getFilesFromResources("circles")
+                .forEach(file -> {
+                    try {
+                        Files.readLines(file, Charsets.UTF_8)
+                                .forEach(line -> {
+                                    List<String> splited = new ArrayList<>(Arrays.asList(line.split("\t")));
+
+                                    groups.add(
+                                            new Group(
+                                                    splited.get(0),
+                                                    splited.subList(1, splited.size()-1)
+                                                            .stream()
+                                                            .map(it -> Long.valueOf(it))
+                                                            .collect(Collectors.toSet())
+                                            )
+                                    );
+                                });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+        return groups;
     }
 
 

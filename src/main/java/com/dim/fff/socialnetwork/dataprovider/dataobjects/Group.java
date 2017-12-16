@@ -1,7 +1,5 @@
 package com.dim.fff.socialnetwork.dataprovider.dataobjects;
 
-import lombok.Data;
-
 import java.util.Collection;
 
 /**
@@ -9,12 +7,24 @@ import java.util.Collection;
  * @version 1.0
  * @since 09.12.17
  */
-@Data
 public class Group {
 
     private String name;
 
-    private Collection<User> members;
+    private Collection<Long> members;
+
+    public Group(String name, Collection<Long> members) {
+        this.name = name;
+        this.members = members;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Collection<Long> getMembers() {
+        return members;
+    }
 
     @Override
     public String toString(){

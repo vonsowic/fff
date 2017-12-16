@@ -1,6 +1,5 @@
 package com.dim.fff.socialnetwork.dataprovider.dataobjects;
 
-import lombok.Getter;
 
 /**
  * @author Michał Wąsowicz
@@ -9,8 +8,11 @@ import lombok.Getter;
  */
 public class User{
 
-    @Getter
     private final Long id;
+
+    public Long getId() {
+        return id;
+    }
 
     public User(Long id) {
         this.id = id;
