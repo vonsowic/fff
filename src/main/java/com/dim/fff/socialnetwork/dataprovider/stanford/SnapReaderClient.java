@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Client
 public class SnapReaderClient implements DataLoader {
 
-    private final String path = "facebook";
+    private final String path = "probne";
 
     @Override
     public Collection<User> getAllUsers() {
