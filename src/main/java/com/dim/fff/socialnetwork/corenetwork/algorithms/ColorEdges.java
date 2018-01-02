@@ -1,6 +1,5 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
-import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
 
 
@@ -22,7 +21,7 @@ public class ColorEdges extends BasicAlgorithm {
                 .getNodeIterator()
                 .forEachRemaining(edge -> {
 //                    if( edge.getAttribute(Attributes.EXISTS)){
-                        edge.setAttribute(Attributes.COLOR, 0);
+                        edge.setAttribute("ui.stylesheet", "graph { fill-color: blue; canvas-color: blue; }");
 //                    }
                 });
     }

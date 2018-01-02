@@ -21,7 +21,6 @@ public class Network implements Iterable<Network>, Cloneable{
 
     protected Network(Graph network) {
         this.network = network;
-        new SetZeroProbabilities(this).compute();
     }
 
     public Graph getGraph(){
@@ -40,6 +39,7 @@ public class Network implements Iterable<Network>, Cloneable{
     }
 
     public Network nextGeneration(){
+        new SetZeroProbabilities(this).compute();
         new GroupMembershipProbabilities(this).compute();
         new FriendsOfFriendsAreMyFriends(this).compute();
         new ColorEdges(this).compute();

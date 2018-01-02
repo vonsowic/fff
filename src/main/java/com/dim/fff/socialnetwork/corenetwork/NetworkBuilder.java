@@ -75,15 +75,15 @@ public class NetworkBuilder implements DataLoader{
                 ));
 
 
-        /*
-        Wyswietla przy kazdym node grupy do których ten node nalezy
+
+//        Wyswietla przy kazdym node grupy do których ten node nalezy
         graph
                 .getNodeIterator()
                 .forEachRemaining(user -> user.setAttribute(
                         Attributes.PROBABILITY,
                         user.getAttribute(Attributes.GROUPS, HashSet.class)
                 ));
-                */
+
 
         return new Network(graph);
     }
