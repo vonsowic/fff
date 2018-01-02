@@ -84,7 +84,7 @@ public class SnapReaderClient implements DataLoader {
                                     groups.add(
                                             new Group(
                                                     splited.get(0),
-                                                    splited.subList(1, splited.size()-1)
+                                                    splited.subList(1, splited.size())
                                                             .stream()
                                                             .map(it -> Long.valueOf(it))
                                                             .collect(Collectors.toSet())
