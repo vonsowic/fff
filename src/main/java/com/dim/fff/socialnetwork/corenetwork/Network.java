@@ -55,9 +55,12 @@ public class Network implements Iterable<Network>, Cloneable{
     }
 
     public Set<String> findAllGroups(){
-        return getNodeStream()
-                .map(user -> user.getAttribute(Attributes.GROUPS, String.class))
-                .collect(Collectors.toSet());
+        HashSet<String> groups = new HashSet<>();
+
+        getNodeStream()
+                .forEach(user -> groups.addAll(user.getAttribute(Attributes.GROUPS, HashSet.class)));
+
+        return groups;
     }
 
     public Map<String, Set<String>> findAllGroupsWithUsers(){
