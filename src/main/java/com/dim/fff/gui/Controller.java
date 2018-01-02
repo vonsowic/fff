@@ -66,7 +66,6 @@ public class Controller implements Initializable {
     public void nextGeneration(){
         showProgressBar();
         // render graph in SwingNode view
-
         network.next();
 
         hideProgressBar();
