@@ -3,7 +3,7 @@ package com.dim.fff.gui;
 import com.dim.fff.socialnetwork.corenetwork.NetworkBuilder;
 import com.dim.fff.socialnetwork.corenetwork.NetworkIterator;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
-import com.dim.fff.socialnetwork.dataprovider.random.RandomClient;
+import com.dim.fff.socialnetwork.dataprovider.random.TestDataClient;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,7 +29,7 @@ public class Controller implements Initializable {
     @FXML private SwingNode graphView;
     @FXML private Button next;
 
-    private Class<? extends DataLoader> client = RandomClient.class;
+    private Class<? extends DataLoader> client = TestDataClient.class;
 
     public Class<? extends DataLoader> getClient() {
         return client;
@@ -42,6 +42,7 @@ public class Controller implements Initializable {
         } catch (IllegalAccessException | InstantiationException | IOException e) {
             e.printStackTrace();
         }
+        createView();
         nextGeneration();
     }
 
@@ -51,17 +52,22 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        nextGeneration();
+        createView();
         progress.setProgress(-1);
+    }
+
+    private void createView(){
+        Viewer viewer = new Viewer(network.next().getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer.enableAutoLayout();
+        View view = viewer.addDefaultView(false);
+        graphView.setContent((JComponent) view);
     }
 
     public void nextGeneration(){
         showProgressBar();
         // render graph in SwingNode view
-        Viewer viewer = new Viewer(network.next().getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout();
-        View view = viewer.addDefaultView(false);
-        graphView.setContent((JComponent) view);
+
+        network.next();
 
         hideProgressBar();
     }
