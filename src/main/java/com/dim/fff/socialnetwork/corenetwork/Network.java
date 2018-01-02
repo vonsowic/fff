@@ -4,9 +4,17 @@ import com.dim.fff.socialnetwork.corenetwork.algorithms.ColorEdges;
 import com.dim.fff.socialnetwork.corenetwork.algorithms.FriendsOfFriendsAreMyFriends;
 import com.dim.fff.socialnetwork.corenetwork.algorithms.GroupMembershipProbabilities;
 import com.dim.fff.socialnetwork.corenetwork.algorithms.SetZeroProbabilities;
+import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Social network graph.
@@ -44,5 +52,31 @@ public class Network implements Iterable<Network>, Cloneable{
         new FriendsOfFriendsAreMyFriends(this).compute();
         new ColorEdges(this).compute();
         return this;
+    }
+
+    public Set<String> findAllGroups(){
+        return getNodeStream()
+                .map(user -> user.getAttribute(Attributes.GROUPS, String.class))
+                .collect(Collectors.toSet());
+    }
+
+    public Map<String, Set<String>> findAllGroupsWithUsers(){
+        return findAllGroups()
+                .stream()
+                .collect(
+                        Collectors.toMap(
+                                group -> group,
+                                group -> getNodeStream()
+                                        .filter(user -> user.getAttribute(Attributes.GROUPS, HashSet.class).contains(group))
+                                        .map(Element::getId)
+                                        .collect(Collectors.toSet()
+                        )
+                )
+        );
+    }
+
+    private Stream<Node> getNodeStream(){
+        return StreamSupport
+                .stream(getGraph().spliterator(), false);
     }
 }
