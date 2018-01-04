@@ -26,7 +26,9 @@ import java.util.stream.Stream;
 @Client
 public class SnapReaderClient implements DataLoader {
 
-    private final String path = "probne";
+    protected String getPath(){
+        return "facebook";
+    }
 
     @Override
     public Collection<User> getAllUsers() {
@@ -82,7 +84,7 @@ public class SnapReaderClient implements DataLoader {
                                     groups.add(
                                             new Group(
                                                     splited.get(0),
-                                                    splited.subList(1, splited.size()-1)
+                                                    splited.subList(1, splited.size())
                                                             .stream()
                                                             .map(it -> Long.valueOf(it))
                                                             .collect(Collectors.toSet())
@@ -105,7 +107,7 @@ public class SnapReaderClient implements DataLoader {
     private Stream<File> getFilesFromResources(String fileContains){
         return Files
                 .fileTreeTraverser()
-                .preOrderTraversal(getFileFromResources(path))
+                .preOrderTraversal(getFileFromResources(getPath()))
                 .filter(file -> file.getPath().contains(fileContains))
                 .stream();
     }
