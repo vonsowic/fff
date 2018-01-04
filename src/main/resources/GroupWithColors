@@ -1,0 +1,114 @@
+package com.dim.fff.socialnetwork.corenetwork.algorithms;
+
+import com.dim.fff.socialnetwork.corenetwork.Attributes;
+import com.dim.fff.socialnetwork.corenetwork.Network;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Group;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.User;
+import com.dim.fff.socialnetwork.dataprovider.stanford.SnapReaderClient;
+import com.google.common.primitives.Longs;
+import org.graphstream.graph.Node;
+
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Calculate probability based on friends of node's friends.
+ *
+ * @author Michał Wąsowicz
+ * @version 1.0
+ * @since 09.12.17
+ */
+public class FriendsOfFriendsAreMyFriends extends BasicAlgorithm {
+    public FriendsOfFriendsAreMyFriends(Network network) {
+        super(network);
+    }
+
+    Collection<Group> groups = new HashSet<>();
+    SnapReaderClient snapReaderClient = new SnapReaderClient();
+
+    String firstNodeId = new String();
+    String secondNodeId = new String();
+
+    List<String> strings = new ArrayList<String>();
+
+    String[] sizes = {"5px, 5px;","10px, 10px;", "15px, 15px;","20px, 20px;","25px, 25px;","30px, 30px;","35px, 35px;", "40px, 40px;", "40px, 40px;", "40px, 40px;", "40px, 40px;", "40px, 40px;"};
+    String[] shadowWidths = {"5px;", "10px;", "10px;", "15px;", "25px;", "30px;","30px;","30px;" };
+    String[] hexColors = {"#364b4b", "#364b4b", "#486564", "#486564", "#6d9797", "#91cac9", "#fff", "#fff", "#b6fdfc", "#b6fdfc"};
+
+    String nodeShadow = "stroke-mode: plain; stroke-width: 2px; stroke-color: #b6fdfc; shadow-mode: gradient-radial;";
+
+
+    private Map<String,Object> getMap(Integer colorIntensity, String probability) {
+        Map<String, Object > map = new HashMap<String, Object>();
+        map.put(Attributes.PROBABILITY, probability);
+        map.put("ui.style", "shape: line; fill-mode: dyn-plain; size: 1px; fill-color: "+ hexColors[colorIntensity] +";");
+        return map;
+    }
+
+
+
+    @Override
+    public void compute() {
+
+        groups = snapReaderClient.getAllGroups();
+
+        groups.forEach((Group singleGroup) -> {
+            long[] group = Longs.toArray(singleGroup.getMembers());
+
+                                for (Integer k = 0; k < group.length-1 ; k++) {
+
+                                    firstNodeId = String.valueOf(group[k]);
+
+
+                                    for (Integer j = k + 1; j < group.length; j++) {
+
+                                        secondNodeId = String.valueOf(group[j]);
+
+                                        Node node1 = getNetwork().getGraph().getNode(firstNodeId);
+                                        Node node2 = getNetwork().getGraph().getNode(secondNodeId);
+
+                                        if (getNetwork().getGraph().getNode(firstNodeId).hasEdgeBetween(secondNodeId)) {
+                                            if (getNetwork().getGraph().getNode(firstNodeId).getEdgeBetween(secondNodeId).hasAttribute(Attributes.PROBABILITY)) {
+                                                String s = getNetwork().getGraph().getNode(firstNodeId).getEdgeBetween(secondNodeId).getAttribute(Attributes.PROBABILITY).toString();
+                                                Integer increasedProbability = Integer.parseInt(s) +1;
+                                                getNetwork()
+                                                        .getGraph()
+                                                        .getNode(firstNodeId).getEdgeBetween(secondNodeId)
+                                                        .addAttributes(getMap(increasedProbability, increasedProbability.toString()));
+
+                                                node1.addAttribute("ui.style", "size: " + sizes[increasedProbability]  + "fill-color: " + hexColors[increasedProbability+1] + "; "
+                                                        + nodeShadow + "shadow-width:" + shadowWidths[increasedProbability] +  "shadow-color: #EEF, #000; shadow-offset: 0px;");
+
+
+                                                node2.addAttribute("ui.style", "size: " + sizes[increasedProbability] + " fill-color: " + hexColors[increasedProbability+1] + "; " + nodeShadow + "shadow-width:" + shadowWidths[increasedProbability] +  "shadow-color: #EEF, #000; shadow-offset: 0px;");
+
+
+                                            }
+                                        } else {
+
+
+                                            String a = firstNodeId+secondNodeId;
+
+                                            getNetwork().getGraph()
+                                                    .addEdge(a, firstNodeId, secondNodeId)
+                                                    .addAttributes(getMap(0, "1"));
+                                            node1.addAttribute("ui.class", "important");
+                                            node2.addAttribute("ui.class", "important");
+
+                                            node1.addAttribute("ui.style", "size: " + sizes[0] + "fill-color: "+ hexColors[0] +";");
+                                            node2.addAttribute("ui.style", "size: " + sizes[0] + "fill-color: "+ hexColors[0] +";");
+
+
+                                        }
+                                    }
+                                }
+
+
+
+            });
+    }
+}
