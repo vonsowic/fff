@@ -11,9 +11,9 @@ public class Group {
 
     private String name;
 
-    private Collection<Long> members;
+    private Collection<String> members;
 
-    public Group(String name, Collection<Long> members) {
+    public Group(String name, Collection<String> members) {
         this.name = name;
         this.members = members;
     }
@@ -22,7 +22,7 @@ public class Group {
         return name;
     }
 
-    public Collection<Long> getMembers() {
+    public Collection<String> getMembers() {
         return members;
     }
 

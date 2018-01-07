@@ -1,9 +1,6 @@
 package com.dim.fff.socialnetwork.corenetwork;
 
-import com.dim.fff.socialnetwork.corenetwork.algorithms.ColorEdges;
-import com.dim.fff.socialnetwork.corenetwork.algorithms.FriendsOfFriendsAreMyFriends;
-import com.dim.fff.socialnetwork.corenetwork.algorithms.GroupMembershipProbabilities;
-import com.dim.fff.socialnetwork.corenetwork.algorithms.SetZeroProbabilities;
+import com.dim.fff.socialnetwork.corenetwork.algorithms.*;
 import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -48,9 +45,12 @@ public class Network implements Iterable<Network>, Cloneable{
 
     public Network nextGeneration(){
         new SetZeroProbabilities(this).compute();
+
         new GroupMembershipProbabilities(this).compute();
         new FriendsOfFriendsAreMyFriends(this).compute();
         new ColorEdges(this).compute();
+
+        new CheckIfRelationshipSurvives(this).compute();
         return this;
     }
 
@@ -78,7 +78,7 @@ public class Network implements Iterable<Network>, Cloneable{
         );
     }
 
-    private Stream<Node> getNodeStream(){
+    public Stream<Node> getNodeStream(){
         return StreamSupport
                 .stream(getGraph().spliterator(), false);
     }

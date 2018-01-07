@@ -4,7 +4,6 @@ import com.dim.fff.socialnetwork.dataprovider.Client;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import com.dim.fff.socialnetwork.dataprovider.dataobjects.Group;
 import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
-import com.dim.fff.socialnetwork.dataprovider.dataobjects.User;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
@@ -12,7 +11,6 @@ import com.google.common.io.Resources;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -31,21 +29,22 @@ public class SnapReaderClient implements DataLoader {
     }
 
     @Override
-    public Collection<User> getAllUsers() {
-        HashSet<User> users = new HashSet<>();
+    public Collection<String> getAllUsers() {
+        HashSet<String> users = new HashSet<>();
 
         getAllRelationships()
-                .forEach(relationship -> {
-                    users.add(relationship.getUser1());
-                    users.add(relationship.getUser2());
-                });
+                .forEach(relationship -> users.addAll(
+                        Arrays.asList(
+                                Relationship.usersOf(relationship)
+                        )
+                ));
 
         return users;
     }
 
     @Override
-    public Collection<Relationship> getAllRelationships() {
-        Collection<Relationship> relationships = new HashSet<>();
+    public Collection<String> getAllRelationships() {
+        Collection<String> relationships = new HashSet<>();
         getFilesFromResources("edges")
                 .forEach(file -> {
                     try {
@@ -56,11 +55,10 @@ public class SnapReaderClient implements DataLoader {
                                     String[] splited = line.split(" ");
 
                                     relationships.add(
-                                            new Relationship(
-                                                    new User(Long.valueOf(splited[0])),
-                                                    new User(Long.valueOf(splited[1]))
-                                            )
-                                    );
+                                            Relationship.generateEdgeId(
+                                                    splited[0],
+                                                    splited[1]
+                                            ));
                                 });
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -85,9 +83,6 @@ public class SnapReaderClient implements DataLoader {
                                             new Group(
                                                     splited.get(0),
                                                     splited.subList(1, splited.size())
-                                                            .stream()
-                                                            .map(it -> Long.valueOf(it))
-                                                            .collect(Collectors.toSet())
                                             )
                                     );
                                 });
