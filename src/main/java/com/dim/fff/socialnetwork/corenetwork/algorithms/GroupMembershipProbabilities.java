@@ -1,9 +1,13 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
+
 import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
 import org.graphstream.graph.Edge;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Calculates probability for each edge based on group membership
@@ -37,7 +41,7 @@ public class GroupMembershipProbabilities extends BasicAlgorithm {
         groupsWithUsers= getNetwork().findAllGroupsWithUsers();
 
         for (Set<String> key : groupsWithUsers.values()) {
-            System.out.println(key);
+//            System.out.println(key);
             String[] group = key.stream().toArray(String[]::new);
 
             for (Integer k = 0; k < group.length - 1; k++) {
@@ -46,7 +50,7 @@ public class GroupMembershipProbabilities extends BasicAlgorithm {
 
                 for (Integer j = k + 1; j < group.length; j++) {
                     secondNodeId = group[j];
-                    System.out.println(secondNodeId);
+//                    System.out.println(secondNodeId);
 
                     if (getNetwork().getGraph().getNode(firstNodeId).hasEdgeBetween(secondNodeId)) {
                         Edge edge = getNetwork().getGraph().getNode(firstNodeId).getEdgeBetween(secondNodeId);
@@ -62,7 +66,7 @@ public class GroupMembershipProbabilities extends BasicAlgorithm {
 
                     } else {
 
-                        String edgeId = firstNodeId + "---" + secondNodeId;
+                        String edgeId = Relationship.generateEdgeId(firstNodeId, secondNodeId);
                         getNetwork().getGraph()
                                 .addEdge(edgeId, firstNodeId, secondNodeId)
                                 .addAttributes(getMap("1", false));
