@@ -11,10 +11,6 @@ import java.util.Set;
 
 /**
  * Calculates probability for each edge based on group membership
- *
- * @author Michał Wąsowicz
- * @version 1.0
- * @since 09.12.17
  */
 public class GroupMembershipProbabilities extends BasicAlgorithm {
 
@@ -40,7 +36,6 @@ public class GroupMembershipProbabilities extends BasicAlgorithm {
 
             for (Integer k = 0; k < group.length - 1; k++) {
                 String firstNodeId = group[k];
-                System.out.println(firstNodeId);
 
                 for (Integer j = k + 1; j < group.length; j++) {
                     String secondNodeId = group[j];
