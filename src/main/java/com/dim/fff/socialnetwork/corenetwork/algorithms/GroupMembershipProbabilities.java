@@ -23,11 +23,6 @@ public class GroupMembershipProbabilities extends BasicAlgorithm {
     }
 
 
-    private String firstNodeId = new String();
-    private String secondNodeId = new String();
-
-    private Map<String, Set<String>> groupsWithUsers = new HashMap<String, Set<String>>();
-
     private Map<String, Object> getMap(String probability, Boolean exist) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(Attributes.PROBABILITY, probability);
@@ -38,19 +33,17 @@ public class GroupMembershipProbabilities extends BasicAlgorithm {
 
     @Override
     public void compute() {
-        groupsWithUsers= getNetwork().findAllGroupsWithUsers();
+        Map<String, Set<String>> groupsWithUsers = getNetwork().findAllGroupsWithUsers();
 
         for (Set<String> key : groupsWithUsers.values()) {
-//            System.out.println(key);
             String[] group = key.stream().toArray(String[]::new);
 
             for (Integer k = 0; k < group.length - 1; k++) {
-                firstNodeId = group[k];
+                String firstNodeId = group[k];
                 System.out.println(firstNodeId);
 
                 for (Integer j = k + 1; j < group.length; j++) {
-                    secondNodeId = group[j];
-//                    System.out.println(secondNodeId);
+                    String secondNodeId = group[j];
 
                     if (getNetwork().getGraph().getNode(firstNodeId).hasEdgeBetween(secondNodeId)) {
                         Edge edge = getNetwork().getGraph().getNode(firstNodeId).getEdgeBetween(secondNodeId);

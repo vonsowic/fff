@@ -1,6 +1,13 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
+import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Node;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Calculate probability based on friends of node's friends.
@@ -48,7 +55,7 @@ public class FriendsOfFriendsAreMyFriends extends BasicAlgorithm {
                     }
                     else
                     {
-                        String edgeId = n.getId() + "---" + j.getId();
+                        String edgeId = Relationship.generateEdgeId(n, j);
                         getNetwork().getGraph().addEdge(edgeId, n, j).addAttribute(Attributes.EXISTS, false);
                         getNetwork().getGraph().getEdge(edgeId).addAttribute(Attributes.PROBABILITY, 1);
 
