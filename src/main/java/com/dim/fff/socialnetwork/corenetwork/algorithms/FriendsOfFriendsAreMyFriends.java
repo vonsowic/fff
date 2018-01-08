@@ -14,6 +14,7 @@ public class FriendsOfFriendsAreMyFriends extends BasicAlgorithm {
         super(network);
     }
 
+
     @Override
     public void compute() {
 

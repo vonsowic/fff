@@ -4,7 +4,6 @@ package com.dim.fff.socialnetwork.corenetwork;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import com.dim.fff.socialnetwork.dataprovider.dataobjects.Group;
 import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
-import com.dim.fff.socialnetwork.dataprovider.dataobjects.User;
 import org.graphstream.graph.implementations.SingleGraph;
 
 import java.util.Collection;
@@ -18,8 +17,8 @@ import java.util.stream.Collectors;
  */
 public class NetworkBuilder implements DataLoader{
 
-    Collection<User> users = new HashSet<>();
-    Collection<Relationship> relationships = new HashSet<>();
+    Collection<String> users = new HashSet<>();
+    Collection<String> relationships = new HashSet<>();
     Collection<Group> groups = new HashSet<>();
 
     protected NetworkBuilder(){}
@@ -28,13 +27,13 @@ public class NetworkBuilder implements DataLoader{
         return new NetworkBuilder();
     }
 
-    public NetworkBuilder addUsers(Collection<User> users){
+    public NetworkBuilder addUsers(Collection<String> users){
         this.users = users;
         return this;
     }
 
 
-    public NetworkBuilder addRelationships(Collection<Relationship> relationships){
+    public NetworkBuilder addRelationships(Collection<String> relationships){
         this.relationships = relationships;
         return this;
     }
@@ -50,13 +49,15 @@ public class NetworkBuilder implements DataLoader{
         SingleGraph graph = new SingleGraph("");
         graph.setAutoCreate( true );
         graph.setStrict( false );
-        getAllUsers().forEach(user -> graph.addNode(user.toString()));
+        getAllUsers().forEach(graph::addNode);
 
-        getAllRelationships().forEach(relationship -> graph.addEdge(
-                relationship.toString(),
-                relationship.getUser1().toString(),
-                relationship.getUser2().toString())
-        );
+        getAllRelationships().forEach(relationship -> {
+            String[] users = Relationship.usersOf(relationship);
+            graph.addEdge(
+                relationship,
+                users[0],
+                users[1]);
+            });
 
         graph
                 .getEdgeIterator()
@@ -69,7 +70,7 @@ public class NetworkBuilder implements DataLoader{
                         Attributes.GROUPS,
                         getAllGroups()
                             .stream()
-                            .filter(group -> group.getMembers().contains(Long.valueOf(user.getId())))
+                            .filter(group -> group.getMembers().contains(user.getId()))
                             .map(Group::getName)
                             .collect(Collectors.toSet())
                 ));
@@ -77,24 +78,25 @@ public class NetworkBuilder implements DataLoader{
 
 
 //        Wyswietla przy kazdym node grupy do których ten node nalezy
-        /*
+//        /*
         graph
                 .getNodeIterator()
                 .forEachRemaining(user -> user.setAttribute(
                         Attributes.PROBABILITY,
-                        user.getAttribute(Attributes.GROUPS, HashSet.class)
+                        user.getId()
+//                        user.getAttribute(Attributes.GROUPS, HashSet.class)
                 ));
-*/
+//*/
         return new Network(graph);
     }
 
     @Override
-    public Collection<User> getAllUsers() {
+    public Collection<String> getAllUsers() {
         return this.users;
     }
 
     @Override
-    public Collection<Relationship> getAllRelationships() {
+    public Collection<String> getAllRelationships() {
         return this.relationships;
     }
 
