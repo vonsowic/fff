@@ -70,7 +70,7 @@ public class NetworkBuilder implements DataLoader{
                         Attributes.GROUPS,
                         getAllGroups()
                             .stream()
-                            .filter(group -> group.getMembers().contains(Long.valueOf(user.getId())))
+                            .filter(group -> group.getMembers().contains(user.getId()))
                             .map(Group::getName)
                             .collect(Collectors.toSet())
                 ));

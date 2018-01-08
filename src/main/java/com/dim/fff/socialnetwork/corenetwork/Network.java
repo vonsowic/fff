@@ -1,6 +1,8 @@
 package com.dim.fff.socialnetwork.corenetwork;
 
 import com.dim.fff.socialnetwork.corenetwork.algorithms.*;
+import org.apache.commons.math3.util.Pair;
+import org.graphstream.algorithm.Dijkstra;
 import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -81,5 +83,36 @@ public class Network implements Iterable<Network>, Cloneable{
     public Stream<Node> getNodeStream(){
         return StreamSupport
                 .stream(getGraph().spliterator(), false);
+    }
+
+
+    public Double clusteringCoefficient(){
+        int numberOfNodes = getGraph().getNodeCount();
+        if(numberOfNodes == 0 || numberOfNodes == 1) return 1.0;
+        return (double) getGraph().getEdgeCount() / (numberOfNodes*(numberOfNodes-1)/2);
+    }
+
+    public Double averagePathLength(){
+        final Dijkstra dijkstra = new Dijkstra();
+        dijkstra.init(getGraph());
+
+        Pair<Double, Integer> value = getNodeStream()
+                .map(sourceNode -> {
+                    dijkstra.setSource(sourceNode);
+                    dijkstra.compute();
+
+                    return getNodeStream()
+                            .filter(node -> node != sourceNode)
+                            .map(dijkstra::getPathLength)
+                            .collect(Collectors.toList()); })
+                .map(lengthsOfPaths -> new Pair<>(
+                        lengthsOfPaths.stream().mapToDouble(it -> it).sum(),
+                        lengthsOfPaths.size()))
+                .reduce(
+                        new Pair<>(0.0, 0),
+                        (prev, it) -> new Pair<>(prev.getFirst() + it.getFirst() * it.getSecond(), prev.getSecond() + it.getSecond())
+                );
+
+        return value.getFirst() / value.getSecond();
     }
 }
