@@ -110,7 +110,7 @@ public class Network implements Iterable<Network>, Cloneable{
                         lengthsOfPaths.size()))
                 .reduce(
                         new Pair<>(0.0, 0),
-                        (prev, it) -> new Pair<>(prev.getFirst() + it.getFirst() * it.getSecond(), prev.getSecond() + it.getSecond())
+                        (prev, it) -> new Pair<>(prev.getFirst() + it.getFirst(), prev.getSecond() + it.getSecond())
                 );
 
         return value.getFirst() / value.getSecond();
