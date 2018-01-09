@@ -96,6 +96,8 @@ public class Network implements Iterable<Network>, Cloneable{
         final Dijkstra dijkstra = new Dijkstra();
         dijkstra.init(getGraph());
 
+        // value.getFirst() -> numerator
+        // value.getSecond() -> denominator
         Pair<Double, Integer> value = getNodeStream()
                 .map(sourceNode -> {
                     dijkstra.setSource(sourceNode);
