@@ -35,24 +35,19 @@ public class FriendsOfFriendsAreMyFriends extends BasicAlgorithm {
     public void compute() {
         for(Node n:getNetwork().getGraph().getEachNode()){
             Set<Node> friends1 = findAllFriends(n);
-//            System.out.println("friends1"+friends1);
             for(Node i: friends1){
                 Set<Node> friends2 = findAllFriends(i);
-//                System.out.println("friends2"+friends2);
                 for(Node j: friends2){
                     if (getNetwork().getGraph().getNode(n.getId()).hasEdgeBetween(j)){
                         Edge edge = getNetwork().getGraph().getNode(n.getId()).getEdgeBetween(j);
-                        Integer increasedProbability = Integer.parseInt(edge.getAttribute(Attributes.PROBABILITY).toString()) + 1;
+                        Integer increasedProbability = Integer.parseInt(edge.getAttribute(Attributes.PROBABILITY).toString()) + getValue();
                         edge.addAttribute(Attributes.PROBABILITY, increasedProbability.toString());
-                        //System.out.println("zwiekszono prawdopodbieństwo dla "+n+" "+j);
                     }
                     else
                     {
                         String edgeId = Relationship.generateEdgeId(n, j);
                         getNetwork().getGraph().addEdge(edgeId, n, j).addAttribute(Attributes.EXISTS, false);
-                        getNetwork().getGraph().getEdge(edgeId).addAttribute(Attributes.PROBABILITY, 1);
-
-//                        System.out.println("zwiekszono prawdopodbieństwo i dodano znajomosc dla "+n+" "+j);
+                        getNetwork().getGraph().getEdge(edgeId).addAttribute(Attributes.PROBABILITY, getValue());
                     }
                 }
             }

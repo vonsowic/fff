@@ -11,6 +11,16 @@ import org.graphstream.graph.Graph;
  */
 public abstract class BasicAlgorithm implements Algorithm {
 
+    private Integer value;
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
     private final Network network;
 
     public Network getNetwork() {
@@ -18,6 +28,7 @@ public abstract class BasicAlgorithm implements Algorithm {
     }
 
     public BasicAlgorithm(Network network) {
+        this.value = 1;
         this.network = network;
     }
 
@@ -25,6 +36,4 @@ public abstract class BasicAlgorithm implements Algorithm {
     public void init(Graph graph) {
         // do nothing
     }
-
-
 }

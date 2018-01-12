@@ -2,15 +2,13 @@ package com.dim.fff.socialnetwork.corenetwork;
 
 import com.dim.fff.socialnetwork.corenetwork.algorithms.*;
 import org.apache.commons.math3.util.Pair;
+import org.graphstream.algorithm.Algorithm;
 import org.graphstream.algorithm.Dijkstra;
 import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -28,10 +26,20 @@ public class Network implements Iterable<Network>, Cloneable{
 
     protected Network(Graph network) {
         this.network = network;
+        algorithms.put("SetZeroProbabilities", new SetZeroProbabilities(this));
+        algorithms.put("GroupMembershipProbabilities", new GroupMembershipProbabilities(this));
+        algorithms.put("ColorEdges", new ColorEdges(this));
+        algorithms.put("CheckIfRelationshipSurvives", new CheckIfRelationshipSurvives(this));
     }
 
     public Graph getGraph(){
         return this.network;
+    }
+
+    private Map<String, BasicAlgorithm> algorithms = new LinkedHashMap<>();
+
+    public Map<String, BasicAlgorithm> getAlgorithms() {
+        return algorithms;
     }
 
     @Override
@@ -46,13 +54,10 @@ public class Network implements Iterable<Network>, Cloneable{
     }
 
     public Network nextGeneration(){
-        new SetZeroProbabilities(this).compute();
+        algorithms
+                .values()
+                .forEach(Algorithm::compute);
 
-        new GroupMembershipProbabilities(this).compute();
-        new FriendsOfFriendsAreMyFriends(this).compute();
-        new ColorEdges(this).compute();
-
-        new CheckIfRelationshipSurvives(this).compute();
         return this;
     }
 

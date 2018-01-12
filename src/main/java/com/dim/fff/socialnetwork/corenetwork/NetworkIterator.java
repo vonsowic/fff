@@ -13,6 +13,10 @@ public class NetworkIterator implements Iterator<Network> {
 
     private Network network;
 
+    public Network getNetwork(){
+        return network;
+    }
+
     NetworkIterator(Network initialState){
         this.network = initialState;
     }

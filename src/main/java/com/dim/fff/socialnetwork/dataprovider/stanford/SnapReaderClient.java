@@ -28,6 +28,8 @@ public class SnapReaderClient implements DataLoader {
         return "facebook";
     }
 
+    private final int fileLimit = 1;
+
     @Override
     public Collection<String> getAllUsers() {
         HashSet<String> users = new HashSet<>();
@@ -104,6 +106,7 @@ public class SnapReaderClient implements DataLoader {
                 .fileTreeTraverser()
                 .preOrderTraversal(getFileFromResources(getPath()))
                 .filter(file -> file.getPath().contains(fileContains))
+                .limit(fileLimit)
                 .stream();
     }
 }
