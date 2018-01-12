@@ -75,18 +75,6 @@ public class NetworkBuilder implements DataLoader{
                             .collect(Collectors.toSet())
                 ));
 
-
-
-//        Wyswietla przy kazdym node grupy do których ten node nalezy
-//        /*
-        graph
-                .getNodeIterator()
-                .forEachRemaining(user -> user.setAttribute(
-                        Attributes.PROBABILITY,
-                        user.getId()
-//                        user.getAttribute(Attributes.GROUPS, HashSet.class)
-                ));
-//*/
         return new Network(graph);
     }
 

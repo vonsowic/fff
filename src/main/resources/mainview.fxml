@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.embed.swing.SwingNode?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dim.fff.gui.Controller">
@@ -12,32 +15,53 @@
                <children>
                   <VBox layoutX="1.0" prefHeight="398.0" prefWidth="121.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button fx:id="next" mnemonicParsing="false" onAction="#nextGeneration" prefHeight="26.0" prefWidth="126.0" text="Next" />
+                        <HBox prefHeight="27.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="next" mnemonicParsing="false" onAction="#nextGeneration" prefHeight="26.0" prefWidth="100.0" text="Next" />
+                              <Label prefHeight="27.0" prefWidth="46.0" fx:id="generationCounter"/>
+                           </children>
+                        </HBox>
                         <Separator prefHeight="16.0" prefWidth="100.0" />
                         <Label text="Datasets" />
-                        <VBox fx:id="datasetChoiceContainer" prefHeight="0.0" prefWidth="100.0" />
+                        <VBox prefHeight="0.0" prefWidth="100.0" fx:id="datasetChoiceContainer"/>
                         <Separator prefWidth="200.0" />
-                        <Label text="Próg" />
-                        <TextField fx:id="friendsAlgorithm"/>
-                        <Label text="Relationships" />
-                        <TextField fx:id="groupsAlgorithm"/>
-                        <Label text="Groups" />
-                        <TextField fx:id="threshold"/>
+                        <Label text="Threshold" />
+                        <TextField fx:id="threshold" prefWidth="100.0" />
+                        <Label text="FOMF" />
+                        <TextField fx:id="friendsAlgorithm" prefWidth="100.0" />
+                         <Label text="GMP" />
+                         <TextField fx:id="groupsAlgorithm" prefWidth="100.0" />
                         <Separator orientation="VERTICAL" prefHeight="92.0" prefWidth="0.0" />
                         <Label text="Clustering Coefficient" />
-                        <Label fx:id="clusteringCoefficient"/>
+                        <Label fx:id="clusteringCoefficient" />
                         <Label text="Average Path Length" />
                         <Label fx:id="averagePathLength" />
                      </children>
                   </VBox>
                </children>
             </AnchorPane>
-
-            <!-- GRAPH -->
-            <AnchorPane>
-                <SwingNode fx:id="graphView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               <ProgressIndicator fx:id="progress" layoutX="387.0" layoutY="364.0" prefHeight="16.0" prefWidth="89.0" progress="0.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-            </AnchorPane>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                  <Tab text="Graph">
+                      <!-- GRAPH-->
+                      <AnchorPane>
+                        <SwingNode fx:id="graphView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    </AnchorPane>
+                  </Tab>
+                  <Tab text="Plots">
+                     <content>
+                        <LineChart fx:id="chart">
+                          <xAxis>
+                            <CategoryAxis label="Generation" side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
         </items>
       </SplitPane>
    </children>

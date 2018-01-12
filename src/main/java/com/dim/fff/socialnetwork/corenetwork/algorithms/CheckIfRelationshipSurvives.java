@@ -2,7 +2,6 @@ package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
 import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
-import org.graphstream.graph.Graph;
 
 /**
  * @author Michał Wąsowicz
@@ -13,22 +12,18 @@ public class CheckIfRelationshipSurvives extends BasicAlgorithm{
 
     public CheckIfRelationshipSurvives(Network network) {
         super(network);
+        setValue(15);
     }
 
     @Override
     public void compute() {
-        Graph graph = getNetwork().getGraph();
-
-        graph
+        getGraph()
                 .getEdgeIterator()
                 .forEachRemaining(edge -> {
-                    // FIXME: change random value
-                    Integer probability = edge.getAttribute(Attributes.PROBABILITY, Integer.class);
-                    if(probability != null) {
-                        edge.setAttribute(Attributes.PROBABILITY, 100000000);
-
-                        if (probability < Math.random() * 100) {
-                            graph.removeEdge(edge);
+                    if(!edge.getAttribute(Attributes.EXISTS, Boolean.class)) {
+                        Integer probability = edge.getAttribute(Attributes.PROBABILITY, Integer.class);
+                        if (probability < getValue()) {
+                            getGraph().removeEdge(edge);
                         } else {
                             edge.setAttribute(Attributes.EXISTS, true);
                         }

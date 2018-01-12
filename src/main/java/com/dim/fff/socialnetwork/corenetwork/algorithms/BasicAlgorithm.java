@@ -1,8 +1,12 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
+import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
 import org.graphstream.algorithm.Algorithm;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 
 /**
  * @author Michał Wąsowicz
@@ -27,6 +31,11 @@ public abstract class BasicAlgorithm implements Algorithm {
         return network;
     }
 
+    protected Graph getGraph(){
+        return getNetwork()
+                .getGraph();
+    }
+
     public BasicAlgorithm(Network network) {
         this.value = 1;
         this.network = network;
@@ -35,5 +44,15 @@ public abstract class BasicAlgorithm implements Algorithm {
     @Override
     public void init(Graph graph) {
         // do nothing
+    }
+
+    protected Edge addNonExistingRelationship(Node user1, Node user2) {
+        Edge result = getGraph()
+                .addEdge(Relationship.generateEdgeId(user1, user2), user1.getId(), user2.getId());
+
+        result.setAttribute(Attributes.EXISTS, false);
+        result.addAttribute(Attributes.PROBABILITY, 0);
+
+        return result;
     }
 }

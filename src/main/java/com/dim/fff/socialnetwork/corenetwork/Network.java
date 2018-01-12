@@ -4,6 +4,7 @@ import com.dim.fff.socialnetwork.corenetwork.algorithms.*;
 import org.apache.commons.math3.util.Pair;
 import org.graphstream.algorithm.Algorithm;
 import org.graphstream.algorithm.Dijkstra;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -28,7 +29,8 @@ public class Network implements Iterable<Network>, Cloneable{
         this.network = network;
         algorithms.put("SetZeroProbabilities", new SetZeroProbabilities(this));
         algorithms.put("GroupMembershipProbabilities", new GroupMembershipProbabilities(this));
-        algorithms.put("ColorEdges", new ColorEdges(this));
+        algorithms.put("FriendsOfFriendsAreMyFriends", new FriendsOfFriendsAreMyFriends(this));
+//        algorithms.put("ColorEdges", new ColorEdges(this));
         algorithms.put("CheckIfRelationshipSurvives", new CheckIfRelationshipSurvives(this));
     }
 
@@ -119,5 +121,17 @@ public class Network implements Iterable<Network>, Cloneable{
                 );
 
         return value.getFirst() / value.getSecond();
+    }
+
+
+    public Integer getProbabilityOf(Edge relationship){
+        return relationship.getAttribute(Attributes.PROBABILITY, Integer.class);
+    }
+
+    public void addProbabilityTo(Edge relationship, Integer valueToBeAdded) {
+        relationship.setAttribute(
+                Attributes.PROBABILITY,
+                relationship.getAttribute(Attributes.PROBABILITY, Integer.class) + valueToBeAdded
+        );
     }
 }
