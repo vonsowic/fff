@@ -61,7 +61,10 @@ public class NetworkBuilder implements DataLoader{
 
         graph
                 .getEdgeIterator()
-                .forEachRemaining(edge -> edge.setAttribute(Attributes.EXISTS, true));
+                .forEachRemaining(edge -> {
+                    edge.setAttribute(Attributes.EXISTS, true);
+                    edge.setAttribute(Attributes.CREATED_AT, 0);
+                });
 
         // add groups
         graph
@@ -75,18 +78,6 @@ public class NetworkBuilder implements DataLoader{
                             .collect(Collectors.toSet())
                 ));
 
-
-
-//        Wyswietla przy kazdym node grupy do których ten node nalezy
-//        /*
-        graph
-                .getNodeIterator()
-                .forEachRemaining(user -> user.setAttribute(
-                        Attributes.PROBABILITY,
-                        user.getId()
-//                        user.getAttribute(Attributes.GROUPS, HashSet.class)
-                ));
-//*/
         return new Network(graph);
     }
 

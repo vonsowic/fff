@@ -28,7 +28,7 @@ public class SetZeroProbabilities extends BasicAlgorithm{
         getNetwork()
                 .getGraph()
                 .getEdgeIterator()
-                .forEachRemaining(edge -> edge.addAttribute(Attributes.PROBABILITY, 0));
+                .forEachRemaining(edge -> edge.addAttribute(Attributes.RELATIONSHIP_STRENGTH, 0));
     }
 
 }

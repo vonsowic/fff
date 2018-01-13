@@ -32,13 +32,14 @@ public class App extends Application{
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(MAINVIEW));
 
-        Parent root = loader.load();
         primaryStage.setTitle("Find Future Friends");
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> System.exit(0));
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
 
         // inject controller
         controller = loader.getController();

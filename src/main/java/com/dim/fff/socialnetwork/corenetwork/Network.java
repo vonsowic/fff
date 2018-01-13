@@ -2,15 +2,14 @@ package com.dim.fff.socialnetwork.corenetwork;
 
 import com.dim.fff.socialnetwork.corenetwork.algorithms.*;
 import org.apache.commons.math3.util.Pair;
+import org.graphstream.algorithm.Algorithm;
 import org.graphstream.algorithm.Dijkstra;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -25,13 +24,26 @@ import java.util.stream.StreamSupport;
 public class Network implements Iterable<Network>, Cloneable{
 
     private final Graph network;
+    private Integer generation = 0;
 
     protected Network(Graph network) {
         this.network = network;
+        algorithms.put("SetZeroProbabilities", new SetZeroProbabilities(this));
+        algorithms.put("GroupMembershipProbabilities", new GroupMembershipProbabilities(this));
+        algorithms.put("FriendsOfFriendsAreMyFriends", new FriendsOfFriendsAreMyFriends(this));
+//        algorithms.put("ColorEdges", new ColorEdges(this));
+        algorithms.put("CheckIfRelationshipSurvives", new CheckIfRelationshipSurvives(this));
+        algorithms.put("RemoveTooOldRelationhips", new RemoveTooOldRelationhips(this));
     }
 
     public Graph getGraph(){
         return this.network;
+    }
+
+    private Map<String, BasicAlgorithm> algorithms = new LinkedHashMap<>();
+
+    public Map<String, BasicAlgorithm> getAlgorithms() {
+        return algorithms;
     }
 
     @Override
@@ -46,13 +58,12 @@ public class Network implements Iterable<Network>, Cloneable{
     }
 
     public Network nextGeneration(){
-        new SetZeroProbabilities(this).compute();
+        generation++;
 
-        new GroupMembershipProbabilities(this).compute();
-        new FriendsOfFriendsAreMyFriends(this).compute();
-        new ColorEdges(this).compute();
+        algorithms
+                .values()
+                .forEach(Algorithm::compute);
 
-        new CheckIfRelationshipSurvives(this).compute();
         return this;
     }
 
@@ -104,7 +115,7 @@ public class Network implements Iterable<Network>, Cloneable{
                     dijkstra.compute();
 
                     return getNodeStream()
-                            .filter(node -> node != sourceNode)
+                            .filter(node -> !node.equals(sourceNode))
                             .map(dijkstra::getPathLength)
                             .collect(Collectors.toList()); })
                 .map(lengthsOfPaths -> new Pair<>(
@@ -116,5 +127,21 @@ public class Network implements Iterable<Network>, Cloneable{
                 );
 
         return value.getFirst() / value.getSecond();
+    }
+
+
+    public Integer getProbabilityOf(Edge relationship){
+        return relationship.getAttribute(Attributes.RELATIONSHIP_STRENGTH, Integer.class);
+    }
+
+    public void addRelationshipStrengthTo(Edge relationship, Integer valueToBeAdded) {
+        relationship.setAttribute(
+                Attributes.RELATIONSHIP_STRENGTH,
+                relationship.getAttribute(Attributes.RELATIONSHIP_STRENGTH, Integer.class) + valueToBeAdded
+        );
+    }
+
+    public Integer getGeneration() {
+        return generation;
     }
 }
