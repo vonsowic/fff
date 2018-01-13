@@ -2,10 +2,7 @@ package com.dim.fff.gui;
 
 import com.dim.fff.socialnetwork.corenetwork.NetworkBuilder;
 import com.dim.fff.socialnetwork.corenetwork.NetworkIterator;
-import com.dim.fff.socialnetwork.corenetwork.algorithms.BasicAlgorithm;
-import com.dim.fff.socialnetwork.corenetwork.algorithms.CheckIfRelationshipSurvives;
-import com.dim.fff.socialnetwork.corenetwork.algorithms.FriendsOfFriendsAreMyFriends;
-import com.dim.fff.socialnetwork.corenetwork.algorithms.GroupMembershipProbabilities;
+import com.dim.fff.socialnetwork.corenetwork.algorithms.*;
 import com.dim.fff.socialnetwork.dataprovider.DataLoader;
 import com.dim.fff.socialnetwork.dataprovider.random.TestDataClient;
 import javafx.embed.swing.SwingNode;
@@ -39,6 +36,7 @@ public class Controller implements Initializable {
     @FXML public TextField friendsAlgorithm;
     @FXML public TextField groupsAlgorithm;
     @FXML public TextField threshold;
+    @FXML public TextField olderThanAlgoValue;
     @FXML public LineChart chart;
     @FXML public Label generationCounter;
 
@@ -77,6 +75,7 @@ public class Controller implements Initializable {
         setOnNumberChangeListener(friendsAlgorithm, FriendsOfFriendsAreMyFriends.class);
         setOnNumberChangeListener(groupsAlgorithm, GroupMembershipProbabilities.class);
         setOnNumberChangeListener(threshold, CheckIfRelationshipSurvives.class);
+        setOnNumberChangeListener(olderThanAlgoValue, RemoveTooOldRelationhips.class);
 
         resetChart();
     }
@@ -127,20 +126,12 @@ public class Controller implements Initializable {
 
     public void nextGeneration(){
         network.next();
-        incrementGeneration();
+        generationCounter.setText(getGeneration().toString());
         updateGraphValues();
     }
 
-    private void incrementGeneration(){
-        generationCounter.setText(String.valueOf(getGeneration()+1));
-    }
-
     private Integer getGeneration(){
-        return Integer.valueOf(getGenerationString());
-    }
-
-    private String getGenerationString(){
-        return generationCounter.getText();
+        return network.getNetwork().getGeneration();
     }
 
     private void updateGraphValues(){
@@ -150,8 +141,8 @@ public class Controller implements Initializable {
         clusteringCoefficient.setText(clusteringCoefficientValue.toString());
         averagePathLength.setText(averagePathLengthValue.toString());
 
-        clusteringCoefficientStack.getData().add(new XYChart.Data(String.valueOf(getGenerationString()), clusteringCoefficientValue));
-        averagePathLengthStack.getData().add(new XYChart.Data(String.valueOf(getGenerationString()), averagePathLengthValue));
+        clusteringCoefficientStack.getData().add(new XYChart.Data(String.valueOf(getGeneration()), clusteringCoefficientValue));
+        averagePathLengthStack.getData().add(new XYChart.Data(String.valueOf(getGeneration()), averagePathLengthValue));
     }
 
     private NetworkIterator createIterator() throws IllegalAccessException, InstantiationException, IOException {

@@ -61,7 +61,10 @@ public class NetworkBuilder implements DataLoader{
 
         graph
                 .getEdgeIterator()
-                .forEachRemaining(edge -> edge.setAttribute(Attributes.EXISTS, true));
+                .forEachRemaining(edge -> {
+                    edge.setAttribute(Attributes.EXISTS, true);
+                    edge.setAttribute(Attributes.CREATED_AT, 0);
+                });
 
         // add groups
         graph

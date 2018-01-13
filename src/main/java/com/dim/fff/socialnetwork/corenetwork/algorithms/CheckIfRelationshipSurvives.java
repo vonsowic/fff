@@ -21,7 +21,7 @@ public class CheckIfRelationshipSurvives extends BasicAlgorithm{
                 .getEdgeIterator()
                 .forEachRemaining(edge -> {
                     if(!edge.getAttribute(Attributes.EXISTS, Boolean.class)) {
-                        Integer probability = edge.getAttribute(Attributes.PROBABILITY, Integer.class);
+                        Integer probability = edge.getAttribute(Attributes.RELATIONSHIP_STRENGTH, Integer.class);
                         if (probability < getValue()) {
                             getGraph().removeEdge(edge);
                         } else {

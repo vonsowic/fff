@@ -24,6 +24,7 @@ import java.util.stream.StreamSupport;
 public class Network implements Iterable<Network>, Cloneable{
 
     private final Graph network;
+    private Integer generation = 0;
 
     protected Network(Graph network) {
         this.network = network;
@@ -32,6 +33,7 @@ public class Network implements Iterable<Network>, Cloneable{
         algorithms.put("FriendsOfFriendsAreMyFriends", new FriendsOfFriendsAreMyFriends(this));
 //        algorithms.put("ColorEdges", new ColorEdges(this));
         algorithms.put("CheckIfRelationshipSurvives", new CheckIfRelationshipSurvives(this));
+        algorithms.put("RemoveTooOldRelationhips", new RemoveTooOldRelationhips(this));
     }
 
     public Graph getGraph(){
@@ -56,6 +58,8 @@ public class Network implements Iterable<Network>, Cloneable{
     }
 
     public Network nextGeneration(){
+        generation++;
+
         algorithms
                 .values()
                 .forEach(Algorithm::compute);
@@ -125,13 +129,17 @@ public class Network implements Iterable<Network>, Cloneable{
 
 
     public Integer getProbabilityOf(Edge relationship){
-        return relationship.getAttribute(Attributes.PROBABILITY, Integer.class);
+        return relationship.getAttribute(Attributes.RELATIONSHIP_STRENGTH, Integer.class);
     }
 
     public void addProbabilityTo(Edge relationship, Integer valueToBeAdded) {
         relationship.setAttribute(
-                Attributes.PROBABILITY,
-                relationship.getAttribute(Attributes.PROBABILITY, Integer.class) + valueToBeAdded
+                Attributes.RELATIONSHIP_STRENGTH,
+                relationship.getAttribute(Attributes.RELATIONSHIP_STRENGTH, Integer.class) + valueToBeAdded
         );
+    }
+
+    public Integer getGeneration() {
+        return generation;
     }
 }

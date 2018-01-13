@@ -29,8 +29,10 @@
                         <TextField fx:id="threshold" prefWidth="100.0" />
                         <Label text="FOMF" />
                         <TextField fx:id="friendsAlgorithm" prefWidth="100.0" />
-                         <Label text="GMP" />
-                         <TextField fx:id="groupsAlgorithm" prefWidth="100.0" />
+                        <Label text="GMP" />
+                        <TextField fx:id="groupsAlgorithm" prefWidth="100.0" />
+                        <Label text="Remove weaker than" />
+                        <TextField fx:id="olderThanAlgoValue" prefWidth="100.0" />
                         <Separator orientation="VERTICAL" prefHeight="92.0" prefWidth="0.0" />
                         <Label text="Clustering Coefficient" />
                         <Label fx:id="clusteringCoefficient" />
@@ -48,7 +50,7 @@
                         <SwingNode fx:id="graphView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </AnchorPane>
                   </Tab>
-                  <Tab text="Plots">
+                  <Tab text="CC">
                      <content>
                         <LineChart fx:id="chart">
                           <xAxis>
@@ -60,6 +62,18 @@
                         </LineChart>
                      </content>
                   </Tab>
+                  <!--<Tab text="APL">-->
+                      <!--<content>-->
+                          <!--<LineChart fx:id="averagePathLengthChart">-->
+                              <!--<xAxis>-->
+                                  <!--<CategoryAxis label="Generation" side="BOTTOM" />-->
+                              <!--</xAxis>-->
+                              <!--<yAxis>-->
+                                  <!--<NumberAxis side="LEFT" />-->
+                              <!--</yAxis>-->
+                          <!--</LineChart>-->
+                      <!--</content>-->
+                  <!--</Tab>-->
               </tabs>
             </TabPane>
         </items>

@@ -51,7 +51,8 @@ public abstract class BasicAlgorithm implements Algorithm {
                 .addEdge(Relationship.generateEdgeId(user1, user2), user1.getId(), user2.getId());
 
         result.setAttribute(Attributes.EXISTS, false);
-        result.addAttribute(Attributes.PROBABILITY, 0);
+        result.addAttribute(Attributes.RELATIONSHIP_STRENGTH, 0);
+        result.addAttribute(Attributes.CREATED_AT, getNetwork().getGeneration());
 
         return result;
     }

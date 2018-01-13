@@ -34,7 +34,7 @@ public class GroupMembershipProbabilities extends BasicAlgorithm {
 
         nonExistingRelationshipsWithNumber
                 .forEach((edge, numberOfRelatedGroups) -> edge
-                            .setAttribute(Attributes.PROBABILITY, numberOfRelatedGroups*getValue()));
+                            .setAttribute(Attributes.RELATIONSHIP_STRENGTH, numberOfRelatedGroups*getValue()));
     }
 
     private Node getNode(String userId) {
