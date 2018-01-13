@@ -8,7 +8,7 @@ import com.dim.fff.socialnetwork.dataprovider.random.TestDataClient;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.LineChart;
+import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,8 +37,9 @@ public class Controller implements Initializable {
     @FXML public TextField groupsAlgorithm;
     @FXML public TextField threshold;
     @FXML public TextField olderThanAlgoValue;
-    @FXML public LineChart chart;
     @FXML public Label generationCounter;
+    @FXML public ScatterChart clusteringCoefficientChart;
+    @FXML public ScatterChart averagePathLengthChart;
 
     private XYChart.Series clusteringCoefficientStack = new XYChart.Series();
     private XYChart.Series averagePathLengthStack  = new XYChart.Series();
@@ -70,28 +71,30 @@ public class Controller implements Initializable {
 
     private void reset(){
         createView();
-        updateGraphValues();
 
         setOnNumberChangeListener(friendsAlgorithm, FriendsOfFriendsAreMyFriends.class);
         setOnNumberChangeListener(groupsAlgorithm, GroupMembershipProbabilities.class);
         setOnNumberChangeListener(threshold, CheckIfRelationshipSurvives.class);
         setOnNumberChangeListener(olderThanAlgoValue, RemoveTooOldRelationhips.class);
+        generationCounter.setText("0");
 
         resetChart();
     }
 
     private void resetChart(){
-        chart.getData().clear();
-        generationCounter.setText("0");
+        averagePathLengthChart.getData().clear();
+        clusteringCoefficientChart.getData().clear();
+
         averagePathLengthStack = new XYChart.Series();
-        averagePathLengthStack.setName("Average path lengths");
         clusteringCoefficientStack = new XYChart.Series();
+
+        averagePathLengthStack.setName("Average path lengths");
         clusteringCoefficientStack.setName("Clustering coefficients");
 
-        chart.getData().addAll(
-                averagePathLengthStack,
-                clusteringCoefficientStack
-        );
+        averagePathLengthChart.getData().add(averagePathLengthStack);
+        clusteringCoefficientChart.getData().addAll(clusteringCoefficientStack);
+
+        updateGraphValues();
     }
 
     private void setOnNumberChangeListener(TextField field, Class<? extends BasicAlgorithm> algorithm){
@@ -134,15 +137,18 @@ public class Controller implements Initializable {
         return network.getNetwork().getGeneration();
     }
 
+
     private void updateGraphValues(){
         Double clusteringCoefficientValue = network.getNetwork().clusteringCoefficient();
-        Double averagePathLengthValue = network.getNetwork().averagePathLength();
-
         clusteringCoefficient.setText(clusteringCoefficientValue.toString());
+        clusteringCoefficientStack.getData().add(new XYChart.Data(String.valueOf(getGeneration()), clusteringCoefficientValue));
+
+        Double averagePathLengthValue = network.getNetwork().averagePathLength();
         averagePathLength.setText(averagePathLengthValue.toString());
 
-        clusteringCoefficientStack.getData().add(new XYChart.Data(String.valueOf(getGeneration()), clusteringCoefficientValue));
-        averagePathLengthStack.getData().add(new XYChart.Data(String.valueOf(getGeneration()), averagePathLengthValue));
+        if(!averagePathLengthValue.isInfinite()){
+            averagePathLengthStack.getData().add(new XYChart.Data(String.valueOf(getGeneration()), averagePathLengthValue));
+        }
     }
 
     private NetworkIterator createIterator() throws IllegalAccessException, InstantiationException, IOException {

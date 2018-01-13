@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.embed.swing.SwingNode?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dim.fff.gui.Controller">
@@ -52,28 +50,28 @@
                   </Tab>
                   <Tab text="CC">
                      <content>
-                        <LineChart fx:id="chart">
+                        <ScatterChart fx:id="clusteringCoefficientChart">
                           <xAxis>
                             <CategoryAxis label="Generation" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis side="LEFT" />
                           </yAxis>
-                        </LineChart>
+                        </ScatterChart>
                      </content>
                   </Tab>
-                  <!--<Tab text="APL">-->
-                      <!--<content>-->
-                          <!--<LineChart fx:id="averagePathLengthChart">-->
-                              <!--<xAxis>-->
-                                  <!--<CategoryAxis label="Generation" side="BOTTOM" />-->
-                              <!--</xAxis>-->
-                              <!--<yAxis>-->
-                                  <!--<NumberAxis side="LEFT" />-->
-                              <!--</yAxis>-->
-                          <!--</LineChart>-->
-                      <!--</content>-->
-                  <!--</Tab>-->
+                  <Tab text="APL">
+                      <content>
+                          <ScatterChart fx:id="averagePathLengthChart">
+                              <xAxis>
+                                  <CategoryAxis label="Generation" side="BOTTOM" />
+                              </xAxis>
+                              <yAxis>
+                                  <NumberAxis side="LEFT" />
+                              </yAxis>
+                          </ScatterChart>
+                      </content>
+                  </Tab>
               </tabs>
             </TabPane>
         </items>

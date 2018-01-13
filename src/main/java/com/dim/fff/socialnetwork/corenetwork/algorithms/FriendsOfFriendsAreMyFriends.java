@@ -46,7 +46,7 @@ public class FriendsOfFriendsAreMyFriends extends BasicAlgorithm {
         getGraph()
                 .getNodeIterator()
                 .forEachRemaining(user -> findRelationsToFriendsOfFriendsOfUserWithNumberOfCommonFriends(user)
-                        .forEach((relationship, numberOfCommonFriends) -> getNetwork().addProbabilityTo(relationship, numberOfCommonFriends*getValue())));
+                        .forEach((relationship, numberOfCommonFriends) -> getNetwork().addRelationshipStrengthTo(relationship, numberOfCommonFriends*getValue())));
     }
 }
 

@@ -113,7 +113,7 @@ public class Network implements Iterable<Network>, Cloneable{
                     dijkstra.compute();
 
                     return getNodeStream()
-                            .filter(node -> node != sourceNode)
+                            .filter(node -> !node.equals(sourceNode))
                             .map(dijkstra::getPathLength)
                             .collect(Collectors.toList()); })
                 .map(lengthsOfPaths -> new Pair<>(
@@ -121,7 +121,7 @@ public class Network implements Iterable<Network>, Cloneable{
                         lengthsOfPaths.size()))
                 .reduce(
                         new Pair<>(0.0, 0),
-                        (prev, it) -> new Pair<>(prev.getFirst() + it.getFirst() * it.getSecond(), prev.getSecond() + it.getSecond())
+                        (prev, it) -> new Pair<>(prev.getFirst() + it.getFirst(), prev.getSecond() + it.getSecond())
                 );
 
         return value.getFirst() / value.getSecond();
@@ -132,7 +132,7 @@ public class Network implements Iterable<Network>, Cloneable{
         return relationship.getAttribute(Attributes.RELATIONSHIP_STRENGTH, Integer.class);
     }
 
-    public void addProbabilityTo(Edge relationship, Integer valueToBeAdded) {
+    public void addRelationshipStrengthTo(Edge relationship, Integer valueToBeAdded) {
         relationship.setAttribute(
                 Attributes.RELATIONSHIP_STRENGTH,
                 relationship.getAttribute(Attributes.RELATIONSHIP_STRENGTH, Integer.class) + valueToBeAdded
