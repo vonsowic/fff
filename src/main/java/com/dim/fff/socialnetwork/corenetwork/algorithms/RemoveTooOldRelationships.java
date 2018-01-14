@@ -1,6 +1,10 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
 import com.dim.fff.socialnetwork.corenetwork.Network;
+import org.graphstream.graph.Element;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Michał Wąsowicz
@@ -15,14 +19,14 @@ public class RemoveTooOldRelationships extends BasicAlgorithm {
 
     @Override
     public void compute() {
-        getGraph()
-                .getEdgeIterator()
-                .forEachRemaining(relationship -> {
-                    if(getNetwork().exists(relationship)){
-                        if(getNetwork().getRelationshipStrength(relationship) - getNetwork().getRelationshipAge(relationship) < getValue()){
-                            getGraph().removeEdge(relationship);
-                        }
-                    }
-                });
+        Set<String> ids = getGraph()
+                .getEdgeSet()
+                .stream()
+                .filter(relationship -> getNetwork().exists(relationship))
+                .filter(relationship -> getNetwork().getRelationshipStrength(relationship) - getNetwork().getRelationshipAge(relationship) < getValue())
+                .map(Element::getId)
+                .collect(Collectors.toSet());
+
+        ids.forEach(id -> getGraph().removeEdge(id));
     }
 }

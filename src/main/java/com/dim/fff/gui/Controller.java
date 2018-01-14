@@ -103,7 +103,17 @@ public class Controller implements Initializable {
                 try {
                     getAlgorithmHandler(algorithm)
                             .setValue(Integer.valueOf(newValue));
-                } catch (NumberFormatException ignore) {}
+                } catch (NumberFormatException ignore) {
+                    if(!newValue.isEmpty()){
+                        field.setText(oldValue);
+                        getAlgorithmHandler(algorithm)
+                                .setValue(Integer.valueOf(oldValue));
+                    } else {
+                        field.setText("0");
+                        getAlgorithmHandler(algorithm)
+                                .setValue(Integer.valueOf("0"));
+                    }
+                }
             });
 
 
