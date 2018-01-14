@@ -128,7 +128,7 @@ public class Network implements Iterable<Network>, Cloneable{
     }
 
 
-    public Integer getProbabilityOf(Edge relationship){
+    public Integer getRelationshipStrength(Edge relationship){
         return relationship.getAttribute(Attributes.RELATIONSHIP_STRENGTH, Integer.class);
     }
 
@@ -141,5 +141,9 @@ public class Network implements Iterable<Network>, Cloneable{
 
     public Integer getGeneration() {
         return generation;
+    }
+
+    public Integer getRelationshipAge(Edge relationship){
+        return getGeneration() - relationship.getAttribute(Attributes.CREATED_AT, Integer.class);
     }
 }

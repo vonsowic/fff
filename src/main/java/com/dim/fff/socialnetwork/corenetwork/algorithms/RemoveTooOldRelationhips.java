@@ -20,7 +20,7 @@ public class RemoveTooOldRelationhips extends BasicAlgorithm {
                 .getEdgeIterator()
                 .forEachRemaining(relationship -> {
                     if(relationship.getAttribute(Attributes.EXISTS)){
-                        if(relationship.getAttribute(Attributes.CREATED_AT, Integer.class) < getValue()){
+                        if(getNetwork().getRelationshipStrength(relationship) - getNetwork().getRelationshipAge(relationship) < getValue()){
                             getGraph().removeEdge(relationship);
                         }
                     }
