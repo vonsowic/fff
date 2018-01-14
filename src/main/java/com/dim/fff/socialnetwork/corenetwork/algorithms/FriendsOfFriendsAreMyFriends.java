@@ -1,6 +1,5 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
-import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
@@ -22,21 +21,23 @@ public class FriendsOfFriendsAreMyFriends extends BasicAlgorithm {
 
         getNetwork()
                 .getNodeStream()
-                .filter(friend -> user.hasEdgeBetween(friend) && user.getEdgeBetween(friend).getAttribute(Attributes.EXISTS, Boolean.class))
-                .forEach(friendOfFriend -> {
-                    if(!Objects.equals(user, friendOfFriend)){
-                        Edge relationship;
-                        if( !user.hasEdgeBetween(friendOfFriend)){
-                            relationship = addNonExistingRelationship(user, friendOfFriend);
-                        } else {
-                            relationship = user.getEdgeBetween(friendOfFriend);
-                        }
+                .filter(friend -> user.hasEdgeBetween(friend) && getNetwork().exists(user.getEdgeBetween(friend)))
+                .forEach(friend -> friend.getNeighborNodeIterator()
+                        .forEachRemaining(friendOfFriend -> {
+                            if(!Objects.equals(user, friendOfFriend)){
+                                Edge relationship;
+                                if( !user.hasEdgeBetween(friendOfFriend)){
+                                    relationship = addNonExistingRelationship(user, friendOfFriend);
+                                } else {
+                                    relationship = user.getEdgeBetween(friendOfFriend);
+                                }
 
-                        if( !relationship.getAttribute(Attributes.EXISTS, Boolean.class) ){
-                            friends.put(relationship, 1+friends.getOrDefault(relationship, 0));
-                        }
-                    }
-                });
+                                if( !getNetwork().exists(relationship)){
+                                    friends.put(relationship, 1+friends.getOrDefault(relationship, 0));
+                                }
+                            }
+                        })
+                );
 
         return friends;
     }

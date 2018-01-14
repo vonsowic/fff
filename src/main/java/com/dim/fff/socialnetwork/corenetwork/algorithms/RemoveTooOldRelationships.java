@@ -1,6 +1,5 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
-import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
 
 /**
@@ -8,8 +7,8 @@ import com.dim.fff.socialnetwork.corenetwork.Network;
  * @version 1.0
  * @since 12.01.18
  */
-public class RemoveTooOldRelationhips extends BasicAlgorithm {
-    public RemoveTooOldRelationhips(Network network) {
+public class RemoveTooOldRelationships extends BasicAlgorithm {
+    public RemoveTooOldRelationships(Network network) {
         super(network);
         setValue(10);
     }
@@ -19,7 +18,7 @@ public class RemoveTooOldRelationhips extends BasicAlgorithm {
         getGraph()
                 .getEdgeIterator()
                 .forEachRemaining(relationship -> {
-                    if(relationship.getAttribute(Attributes.EXISTS)){
+                    if(getNetwork().exists(relationship)){
                         if(getNetwork().getRelationshipStrength(relationship) - getNetwork().getRelationshipAge(relationship) < getValue()){
                             getGraph().removeEdge(relationship);
                         }
