@@ -1,6 +1,7 @@
 package com.dim.fff.socialnetwork.corenetwork;
 
 import com.dim.fff.socialnetwork.corenetwork.algorithms.*;
+import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
 import org.apache.commons.math3.util.Pair;
 import org.graphstream.algorithm.Algorithm;
 import org.graphstream.algorithm.Dijkstra;
@@ -33,7 +34,7 @@ public class Network implements Iterable<Network>, Cloneable{
         algorithms.put("FriendsOfFriendsAreMyFriends", new FriendsOfFriendsAreMyFriends(this));
 //        algorithms.put("ColorEdges", new ColorEdges(this));
         algorithms.put("CheckIfRelationshipSurvives", new CheckIfRelationshipSurvives(this));
-        algorithms.put("RemoveTooOldRelationhips", new RemoveTooOldRelationhips(this));
+        algorithms.put("RemoveTooOldRelationships", new RemoveTooOldRelationships(this));
     }
 
     public Graph getGraph(){
@@ -145,5 +146,32 @@ public class Network implements Iterable<Network>, Cloneable{
 
     public Integer getRelationshipAge(Edge relationship){
         return getGeneration() - relationship.getAttribute(Attributes.CREATED_AT, Integer.class);
+    }
+
+    public boolean exists(Edge relationship) {
+        return relationship.getAttribute(Attributes.EXISTS, Boolean.class);
+    }
+
+    public void setExists(Edge relationship, boolean exists) {
+        relationship.setAttribute(Attributes.EXISTS, exists);
+    }
+
+    public void setStrength(Edge relationship, int strength ) {
+        relationship.addAttribute(Attributes.RELATIONSHIP_STRENGTH, strength);
+    }
+
+    public Edge addNonExistingRelationship(Node user1, Node user2) {
+        Edge result = getGraph()
+                .addEdge(Relationship.generateEdgeId(user1, user2), user1.getId(), user2.getId());
+
+        setExists(result, false);
+        setStrength(result, 0);
+        setCreatedAtNow(result);
+
+        return result;
+    }
+
+    private void setCreatedAtNow(Edge result) {
+        result.addAttribute(Attributes.CREATED_AT, getGeneration());
     }
 }

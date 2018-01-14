@@ -1,8 +1,6 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
-import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
-import com.dim.fff.socialnetwork.dataprovider.dataobjects.Relationship;
 import org.graphstream.algorithm.Algorithm;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -47,13 +45,6 @@ public abstract class BasicAlgorithm implements Algorithm {
     }
 
     protected Edge addNonExistingRelationship(Node user1, Node user2) {
-        Edge result = getGraph()
-                .addEdge(Relationship.generateEdgeId(user1, user2), user1.getId(), user2.getId());
-
-        result.setAttribute(Attributes.EXISTS, false);
-        result.addAttribute(Attributes.RELATIONSHIP_STRENGTH, 0);
-        result.addAttribute(Attributes.CREATED_AT, getNetwork().getGeneration());
-
-        return result;
+        return getNetwork().addNonExistingRelationship(user1, user2);
     }
 }

@@ -1,6 +1,5 @@
 package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
-import com.dim.fff.socialnetwork.corenetwork.Attributes;
 import com.dim.fff.socialnetwork.corenetwork.Network;
 
 
@@ -28,7 +27,7 @@ public class SetZeroProbabilities extends BasicAlgorithm{
         getNetwork()
                 .getGraph()
                 .getEdgeIterator()
-                .forEachRemaining(edge -> edge.addAttribute(Attributes.RELATIONSHIP_STRENGTH, 0));
+                .forEachRemaining(relationship -> getNetwork().setStrength(relationship, 0));
     }
 
 }

@@ -5,7 +5,7 @@ package com.dim.fff.socialnetwork.corenetwork;
  * @version 1.0
  * @since 09.12.17
  */
-public class Attributes {
+class Attributes {
 
     public static final String EXISTS = "exists";
     public static final String RELATIONSHIP_STRENGTH = "ui.label";

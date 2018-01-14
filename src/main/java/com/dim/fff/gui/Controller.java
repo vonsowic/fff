@@ -75,7 +75,7 @@ public class Controller implements Initializable {
         setOnNumberChangeListener(friendsAlgorithm, FriendsOfFriendsAreMyFriends.class);
         setOnNumberChangeListener(groupsAlgorithm, GroupMembershipProbabilities.class);
         setOnNumberChangeListener(threshold, CheckIfRelationshipSurvives.class);
-        setOnNumberChangeListener(olderThanAlgoValue, RemoveTooOldRelationhips.class);
+        setOnNumberChangeListener(olderThanAlgoValue, RemoveTooOldRelationships.class);
         generationCounter.setText("0");
 
         resetChart();
