@@ -2,6 +2,8 @@ package com.dim.fff.socialnetwork.corenetwork.algorithms;
 
 import com.dim.fff.socialnetwork.corenetwork.Network;
 
+import java.util.stream.Collectors;
+
 /**
  * @author Michał Wąsowicz
  * @version 1.0
@@ -17,16 +19,18 @@ public class CheckIfRelationshipSurvives extends BasicAlgorithm{
     @Override
     public void compute() {
         getGraph()
-                .getEdgeIterator()
-                .forEachRemaining(relationship -> {
-                    if(!getNetwork().exists(relationship)) {
-                        Integer probability = getNetwork().getRelationshipStrength(relationship);
-                        if (probability < getValue()) {
-                            getGraph().removeEdge(relationship);
-                        } else {
-                            getNetwork().setExists(relationship, true);
-                        }
+                .getEdgeSet()
+                .stream()
+                .filter(relationship -> !getNetwork().exists(relationship))
+                .collect(Collectors.toSet())
+                .forEach(relationship -> {
+                    if (getNetwork().getRelationshipStrength(relationship) < getValue()) {
+                        getGraph().removeEdge(relationship);
+                    } else {
+                        getNetwork().setExists(relationship, true);
                     }
                 });
+
+
     }
 }

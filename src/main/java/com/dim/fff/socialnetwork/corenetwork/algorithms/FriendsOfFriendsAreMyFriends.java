@@ -25,12 +25,7 @@ public class FriendsOfFriendsAreMyFriends extends BasicAlgorithm {
                 .forEach(friend -> friend.getNeighborNodeIterator()
                         .forEachRemaining(friendOfFriend -> {
                             if(!Objects.equals(user, friendOfFriend)){
-                                Edge relationship;
-                                if( !user.hasEdgeBetween(friendOfFriend)){
-                                    relationship = addNonExistingRelationship(user, friendOfFriend);
-                                } else {
-                                    relationship = user.getEdgeBetween(friendOfFriend);
-                                }
+                                Edge relationship = getNetwork().getRelationshipBetweenCreateIfNecessary(user, friendOfFriend);
 
                                 if( !getNetwork().exists(relationship)){
                                     friends.put(relationship, 1+friends.getOrDefault(relationship, 0));

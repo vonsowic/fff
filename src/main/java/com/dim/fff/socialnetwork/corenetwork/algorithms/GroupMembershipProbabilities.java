@@ -18,20 +18,20 @@ public class GroupMembershipProbabilities extends BasicAlgorithm {
 
     @Override
     public void compute() {
-        HashMap<Edge, Integer> nonExistingRelationshipsWithNumber = new HashMap<>();
+        HashMap<Edge, Integer> relationshipsWithNumber = new HashMap<>();
 
         getNetwork()
                 .findAllGroupsWithUsers()
                 .forEach((groupId, usersInGroup) -> usersInGroup
                         .forEach(user1 -> usersInGroup
                                 .stream()
-                                .filter(user2 -> (!getNode(user1).hasEdgeBetween(user2) || !getNetwork().exists(getNode(user1).getEdgeBetween(user2)) && !Objects.equals(user1, user2)))
+                                .filter(user2 -> ( !Objects.equals(user1, user2)))
                                 .forEach(user2 -> {
-                                    Edge edge = addNonExistingRelationship(getNode(user1), getNode(user2));
-                                    nonExistingRelationshipsWithNumber.put(edge, 1+nonExistingRelationshipsWithNumber.getOrDefault(edge, 0));
+                                    Edge edge = getNetwork().getRelationshipBetweenCreateIfNecessary(getNode(user1), getNode(user2));
+                                    relationshipsWithNumber.put(edge, 1+relationshipsWithNumber.getOrDefault(edge, 0));
                                 })));
 
-        nonExistingRelationshipsWithNumber
+        relationshipsWithNumber
                 .forEach((relationship, numberOfRelatedGroups) -> getNetwork()
                         .addRelationshipStrengthTo(relationship, numberOfRelatedGroups*getValue()));
     }

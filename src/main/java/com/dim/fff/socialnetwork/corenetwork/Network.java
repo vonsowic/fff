@@ -33,8 +33,8 @@ public class Network implements Iterable<Network>, Cloneable{
         algorithms.put("GroupMembershipProbabilities", new GroupMembershipProbabilities(this));
         algorithms.put("FriendsOfFriendsAreMyFriends", new FriendsOfFriendsAreMyFriends(this));
 //        algorithms.put("ColorEdges", new ColorEdges(this));
-        algorithms.put("CheckIfRelationshipSurvives", new CheckIfRelationshipSurvives(this));
         algorithms.put("RemoveTooOldRelationships", new RemoveTooOldRelationships(this));
+        algorithms.put("CheckIfRelationshipSurvives", new CheckIfRelationshipSurvives(this));
     }
 
     public Graph getGraph(){
@@ -175,5 +175,13 @@ public class Network implements Iterable<Network>, Cloneable{
 
     private void setCreatedAtNow(Edge result) {
         result.addAttribute(Attributes.CREATED_AT, getGeneration());
+    }
+
+    public Edge getRelationshipBetweenCreateIfNecessary(Node user1, Node user2) {
+        if(user1.hasEdgeBetween(user2)){
+            return user1.getEdgeBetween(user2);
+        } else {
+            return addNonExistingRelationship(user1, user2);
+        }
     }
 }
